@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -122,3 +124,6 @@ STATICFILES_DIRS = [
 # Media
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
+
+# User
+AUTH_USER_MODEL = 'accounts.User'
