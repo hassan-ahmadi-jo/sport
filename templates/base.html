@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="fa" dir="rtl">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="{% static 'fonts/fontawesome/css/all.min.css' %}" />
+  <link rel="stylesheet" href="{% static 'css/main_style.css' %}" />
+  <title>
+    {% block title %}
+
+    {% endblock %}
+  </title>
+</head>
+
+<body
+  class="bg-default text-main antialiased min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
+  <header></header>
+
+  <main class="flex-1 w-full flex flex-col">
+    {% block body %}
+    {% endblock %}
+  </main>
+
+  <footer></footer>
+</body>
+
+</html>

@@ -1,0 +1,32 @@
+venv/
+env/
+.env_folder/
+
+
+__pycache__/
+*.py[cod]
+*$py.class
+
+db.sqlite3
+
+.env
+local_settings.py
+
+
+media/
+staticfiles/
+
+
+.vscode/
+.idea/
+
+*.mo
+
+# Tailwin
+node_modules/
+package.json
+package-lock.json
+
+
+# Other
+todo.txt
