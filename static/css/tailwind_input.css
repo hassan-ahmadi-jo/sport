@@ -244,4 +244,43 @@
     .blog-content tr:last-child td {
         @apply border-b-0;
     }
+
+    /* استایل پایه برای Input های جنگو */
+    .form-control {
+        background-color: var(--color-bg-default);
+        color: var(--color-text-main);
+        border: 1px solid var(--color-border-default);
+        @apply w-full px-4 py-3 rounded-xl text-sm transition-all duration-300 outline-none;
+    }
+
+    /* حالت فوکوس روی Input */
+    .form-control:focus {
+        background-color: var(--color-bg-surface);
+        border-color: var(--color-primary);
+        @apply ring-4;
+        ring-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+    }
+
+    /* استایل لیبل‌های فرم */
+    .form-label {
+        color: var(--color-text-main);
+        @apply block text-sm font-bold mb-2 opacity-90;
+    }
+
+    /* استایل دکمه ارسال فرم (گسترش یافته برای فرم‌ها) */
+    .form-button {
+        background-color: var(--color-primary);
+        @apply w-full flex items-center justify-center text-white font-medium text-base px-6 py-3.5 rounded-xl transition-all duration-300 shadow-sm focus:outline-none focus:ring-4 hover:shadow-md;
+        ring-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+    }
+
+    .form-button:hover {
+        background-color: var(--color-primary-hover);
+        @apply -translate-y-0.5;
+    }
+
+    /* استایل پیام‌های ارور جنگو */
+    .form-error {
+        @apply text-xs text-rose-500 mt-1.5 font-medium flex items-center gap-1;
+    }
 }

@@ -127,3 +127,8 @@ MEDIA_URL = '/media/'
 
 # User
 AUTH_USER_MODEL = 'accounts.User'
+
+
+# Phone number
+PHONENUMBER_DEFAULT_REGION = "IR"
+PHONENUMBER_DB_FORMAT = "E164"
