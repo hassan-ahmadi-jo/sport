@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block tiltle %}
+  فعال سازی
+{% endblock %}
+
+{% block body %}
+  <div class="flex items-center justify-center min-h-[80vh] px-4 py-10">
+    <!-- فرم اصلی با استفاده از کلاس card شما -->
+    <form method="post" class="card w-full max-w-md p-6 md:p-8">
+      {% csrf_token %}
+
+      <!-- هدر فرم -->
+      <section class="text-center mb-8">
+        <h2 class="text-2xl md:text-3xl mb-2">تأیید شماره همراه</h2>
+        <p class="text-sm opacity-70">
+          کد تأیید ارسال شده به شماره <span class="font-bold" dir="ltr">{{ phone_number }}</span> را وارد کنید.
+        </p>
+      </section>
+
+      <!-- فیلد -->
+      <div class="mb-5">
+        <label class="form-label">{{ form.otp_code.label }}</label>
+        {{ form.otp_code }} <!-- اینجا جنگو کلاس form-control را رندر می‌کند -->
+        {% if form.otp_code.errors %}
+          <div class="form-error">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            {{ form.otp_code.errors|striptags }}
+          </div>
+        {% endif %}
+      </div>
+      <div class="hidden">
+        <p id="otp-retry-remaining-seconds">{{ form.next_retry_time }}</p>
+        <p id="otp-resend-remaining-seconds">{{ form.next_resend_time }}</p>
+      </div>
+
+      <!-- دکمه سابمیت -->
+      <button name="action" value="activation" type="submit" class="form-button">تأیید کد</button>
+
+      <!-- فوتر فرم -->
+      <div class="mt-8 pt-6 border-t border-[var(--color-border-default)] flex flex-col items-center justify-center gap-2">
+        <!-- بخش متن و دکمه -->
+        <div class="text-sm opacity-80 flex items-center gap-1.5 m-0">
+          <span>کد را دریافت نکردید؟</span>
+          <button id="otp-resend-btn" name="action" formnovalidate value="resend" type="submit" class="btn-resend">ارسال مجدد کد</button>
+        </div>
+
+        <!-- بخش تایمر -->
+        <!-- با استفاده از dir="ltr" و فونت مدیوم روی تایمر، خوانایی اعداد بهتر می‌شود -->
+        <p id="otp-resend-countdown-container" class="text-xs opacity-70 text-center hidden m-0 transition-all duration-300">
+          امکان ارسال مجدد تا
+          <span id="otp-resend-countdown" class="font-medium text-[var(--color-primary)] mx-0.5" dir="rtl"></span>
+          دیگر
+        </p>
+      </div>
+    </form>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script src="{% static 'javascript/opt_verify.js' %}"></script>
+{% endblock %}

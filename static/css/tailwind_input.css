@@ -89,6 +89,23 @@
 }
 
 @layer components {
+
+    /* استایل دکمه ارسال مجدد (لینک‌مانند) */
+    .btn-resend {
+        color: var(--color-primary);
+        @apply font-bold transition-colors cursor-pointer bg-transparent border-none p-0 inline-flex items-center justify-center;
+    }
+
+    .btn-resend:hover:not(:disabled) {
+        color: var(--color-primary-hover);
+    }
+
+    /* حالت غیرفعال دکمه */
+    .btn-resend:disabled {
+        @apply opacity-50 cursor-not-allowed grayscale;
+        /* در حالت غیرفعال، هاور کار نخواهد کرد و رنگ دکمه کدر می‌شود */
+    }
+
     /* کامپوننت‌های پرتکرار */
 
     .card {

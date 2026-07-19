@@ -132,3 +132,15 @@ AUTH_USER_MODEL = 'accounts.User'
 # Phone number
 PHONENUMBER_DEFAULT_REGION = "IR"
 PHONENUMBER_DB_FORMAT = "E164"
+
+# security code
+SECURITY_CODE_LENGTH = 6 # More than 3
+SECURITY_CODE_MAX_FAILED_ATTEMPTS = 5
+
+# Minimum minutes a user must wait before requesting another security code
+SECURITY_CODE_RESEND_COOLDOWN_MINUTES = 3 # Minutes
+
+# Defines how long (in minutes) an security code remains valid before it expires.
+SECURITY_CODE_EXPIRE_MINUTES = 5 # Minutes
+
+
