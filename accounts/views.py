@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic.edit import CreateView
+from django.views.generic import TemplateView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.views import View
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.contrib.auth import login, logout
@@ -13,13 +15,13 @@ from . import forms, services, models
 class RegisterView(UserPassesTestMixin, CreateView):
     template_name = 'accounts/register.html'
     form_class = forms.RegisterForm
-    success_url = reverse_lazy('activation')
+    success_url = reverse_lazy('verify')
     
     def test_func(self):
         return not self.request.user.is_authenticated
     
     def handle_no_permission(self):
-        return redirect('home')
+        return redirect('profile')
     
     @transaction.atomic
     def form_valid(self, form):
@@ -44,7 +46,7 @@ class AccountActivationView(UserPassesTestMixin, View):
         return not self.request.user.is_authenticated
     
     def handle_no_permission(self):
-        return redirect('home')
+        return redirect('profile')
 
     def get(self, request: HttpRequest):
         user = self.get_user()
@@ -74,7 +76,34 @@ class AccountActivationView(UserPassesTestMixin, View):
                 user.save(update_fields = ['phone_verified'])
                 request.session.pop('user_id', None)
                 login(request, user)
-                return redirect('home')
+                return redirect('profile')
         
         return render(request, self.template_name, {'form': form, 'phone_number': phone_number})
 
+
+class UserLoginView(UserPassesTestMixin, LoginView):
+    template_name = 'accounts/login.html'
+    form_class = forms.UserLoginForm
+
+    def test_func(self):
+        return not self.request.user.is_authenticated
+    
+    def handle_no_permission(self):
+        return redirect('profile')
+
+    def form_valid(self, form):
+        user = form.get_user()
+        if not user.phone_verified:
+            self.request.session['user_id'] = user.id
+            services.security_code_handler(user, action='create')
+            return redirect('verify')
+        return super().form_valid(form)
+
+class profileView(UserPassesTestMixin ,TemplateView):
+    template_name = 'accounts/profile.html'
+
+    def test_func(self):
+        return self.request.user.is_authenticated
+    
+    def handle_no_permission(self):
+        return redirect('login')

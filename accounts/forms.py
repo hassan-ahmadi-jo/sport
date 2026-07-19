@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from . import models, services
@@ -95,3 +95,33 @@ class OTPVerifyForm(forms.Form):
         
 
         return otp_code
+    
+class UserLoginForm(AuthenticationForm):
+    username = forms.CharField(
+        label='تلفن تماس',
+        widget=forms.TextInput(attrs={
+                "autofocus": True,
+                'class': 'form-control',
+                'placeholder': '09123456789',
+                'type': 'tel',
+                'dir': 'ltr',
+                'inputmode': 'numeric',
+            })
+        )
+    password = forms.CharField(
+        label='گذرواژه',
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            "autocomplete": "current-password",
+            'class': 'form-control',
+            'dir': 'ltr',
+            }),
+    )
+
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        if username[0] == '0':
+            username = username[1:]
+        username = '+98' + username
+
+        return username

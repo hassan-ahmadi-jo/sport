@@ -16,7 +16,14 @@
 
 <body
   class="bg-default text-main antialiased min-h-screen flex flex-col selection:bg-primary selection:text-white overflow-x-hidden">
-  <header></header>
+  <header>
+    {% if user.is_authenticated %}
+      <form method="post" class="max-w-120 mx-5 my-3 float-right" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button class="form-button">خروج</button>
+      </form>
+    {% endif %}
+  </header>
 
   <main class="flex-1 w-full flex flex-col">
     {% block body %}
