@@ -11,7 +11,7 @@ class User(AbstractUser):
     phone_verified = models.BooleanField(default=False, verbose_name='تلفن تماس معتبر است؟')
     REQUIRED_FIELDS = ['phone_number']
     def save(self, *args, **kwargs):
-        self.username = self.phone_number
+        self.username = str(self.phone_number)
         return super().save(*args, **kwargs)
     
     def __str__(self):
@@ -19,7 +19,7 @@ class User(AbstractUser):
 
 class OTPChallenge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='otp', verbose_name='کاربر')
-    security_code = models.CharField(max_length=128, unique=True, verbose_name='هش کد تأیید')
+    security_code = models.CharField(max_length=255, verbose_name='هش کد تأیید')
     expires_at = models.DateTimeField(verbose_name='زمان انقضا')
     next_retry_at = models.DateTimeField(verbose_name='تا این زمان اجازه تلاش مجدد ندارد')
     next_resend_at = models.DateTimeField(verbose_name='زمان مجاز بعدی برای ارسال مجدد')

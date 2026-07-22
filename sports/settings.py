@@ -138,7 +138,7 @@ SECURITY_CODE_LENGTH = 6 # More than 3
 SECURITY_CODE_MAX_FAILED_ATTEMPTS = 5
 
 # Minimum minutes a user must wait before requesting another security code
-SECURITY_CODE_RESEND_COOLDOWN_MINUTES = 3 # Minutes
+SECURITY_CODE_RESEND_COOLDOWN_MINUTES = 0.3 # Minutes
 
 # Defines how long (in minutes) an security code remains valid before it expires.
 SECURITY_CODE_EXPIRE_MINUTES = 5 # Minutes
@@ -146,5 +146,16 @@ SECURITY_CODE_EXPIRE_MINUTES = 5 # Minutes
 
 # LOGIN_REDIRECT_URL
 LOGIN_REDIRECT_URL = 'profile'
+
+
+# Cange password 
+PASSWORD_RESET_SESSION_TIMEOUT = 15 # Minutes
+
+
+# Maximum allowed requests within the specified time window
+ACCOUNT_REQUEST_MAX_ATTEMPTS = 10
+
+# Time window duration in hours (e.g., 24 hours)
+ACCOUNT_REQUEST_WINDOW_HOURS = 12 # hours
 
 
