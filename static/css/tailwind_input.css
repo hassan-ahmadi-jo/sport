@@ -89,6 +89,37 @@
 }
 
 @layer components {
+    /* Workout Day Btn */
+    .workout-day-btn-selected-mode {
+        @apply flex items-center justify-between w-full p-4 rounded-2xl border-r-4 border-[var(--color-primary)] bg-gradient-to-l from-[var(--color-primary)]/15 to-transparent text-right transition-all duration-300 shadow-sm;
+    }
+
+    .workout-day-btn-selected-mode span {
+        @apply block text-xs font-bold text-[var(--color-primary)] mb-1 tracking-wider;
+    }
+
+    .workout-day-btn-selected-mode strong {
+        @apply block text-base text-[var(--color-text-main)];
+    }
+
+    .workout-day-btn-selected-mode svg {
+        @apply w-5 h-5 text-[var(--color-primary)] transform rotate-180;
+    }
+
+    .workout-day-btn-normal-mode{
+        @apply cursor-pointer flex items-center justify-between w-full p-4 rounded-2xl border border-transparent hover:border-[var(--color-primary)]/20 hover:bg-[var(--color-bg-surface)] hover:shadow-md hover:shadow-[var(--color-primary)]/5 transition-all duration-300 text-right hover:-translate-x-1;
+    }
+
+    .workout-day-btn-normal-mode span {
+        @apply block text-xs font-medium group-hover:text-[var(--color-primary)] text-[var(--color-text-muted)] mb-1 transition-colors;
+    }
+
+    .workout-day-btn-normal-mode strong {
+        @apply block text-sm text-[var(--color-text-main)] group-hover:text-[var(--color-primary)] transition-colors;
+    }
+    .workout-day-btn-normal-mode svg {
+        @apply w-5 h-5 text-gray-300 dark:text-gray-600 group-hover:text-[var(--color-primary)] transform rotate-180 transition-all opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0;
+    }
 
     /* استایل دکمه ارسال مجدد (لینک‌مانند) */
     .btn-resend {
