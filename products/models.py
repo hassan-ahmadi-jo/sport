@@ -40,7 +40,7 @@ class SubscriptionProduct(models.Model):
 class SubscriptionPackage(models.Model):
     product = models.ForeignKey(SubscriptionProduct, related_name='packages', on_delete=models.CASCADE, verbose_name='محصول')
     title = models.CharField(max_length=150, verbose_name='عنوان پکیج (برای مثال: ۳ ماهه طلایی)')
-    price = models.PositiveIntegerField(verbose_name='مبلغ نهایی')
+    price = models.PositiveIntegerField(verbose_name='مبلغ نهایی (تومان)')
     price_without_discount = models.PositiveIntegerField(blank=True, null=True, verbose_name='مبلغ بدون تخفیف')
     duration_days = models.PositiveIntegerField(verbose_name='تعداد روزهای اشتراک')
     is_active = models.BooleanField(default=False, verbose_name='فعال است؟')

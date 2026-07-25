@@ -1,5 +1,6 @@
 from django.db import models
 from django.db.models import Max
+from products.models import SubscriptionProduct
 
 # Create your models here.
 
@@ -12,6 +13,7 @@ def get_next_course_number():
 class WorkoutCourse(models.Model):
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
     description = models.TextField(blank=True, null=True, verbose_name='توضیحات کوتاه')
+    subscription_product = models.ForeignKey(SubscriptionProduct, on_delete=models.PROTECT, related_name='courses', verbose_name='محصول اشتراکی مرجع')
 
     number = models.IntegerField(unique=True, default=get_next_course_number, verbose_name='شماره دوره')
     start_date = models.DateField(verbose_name='تاریخ شروع تمرینات')
