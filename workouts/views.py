@@ -1,25 +1,26 @@
 from django.shortcuts import render, get_object_or_404
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, DetailView
 from django.views import View
 from . import models
 import time
 
 # Create your views here.
 
-class WorkoutClubView(TemplateView):
-    template_name = 'workouts/workout_club.html'
+class WorkoutCourseView(DetailView):
+    template_name = 'workouts/workout_course.html'
+    model = models.WorkoutCourse
+    context_object_name = 'course'
+    slug_url_kwarg = 'slug'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        course = models.WorkoutCourse.objects.first()
-        context['course'] = course
-        return context
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.select_related('subscription_product')
 
 class WorkoutDayDetailView(View):
     template_name = 'workouts/workout_day_detail.html'
-    def get(self, request, day_id):
-        course = models.WorkoutCourse.objects.first()
+    def get(self, request, slug,day_id):
+        course = get_object_or_404(models.WorkoutCourse.objects.select_related('subscription_product'), slug=slug)
         context = {
-            'current_day': get_object_or_404(course.daily_workouts, id=day_id)
+            'current_day': get_object_or_404(course.daily_workouts.all(), id=day_id)
             }
         return render(request, self.template_name, context)

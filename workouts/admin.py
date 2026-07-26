@@ -5,9 +5,10 @@ from . import models
 
 @admin.register(models.WorkoutCourse)
 class WorkoutCourseAdmin(admin.ModelAdmin):
-    list_display = ['number', 'title', 'start_date', 'duration_days']
+    list_display = ['title', 'number', 'start_date', 'duration_days']
     list_filter = ['duration_days', 'start_date']
     search_fields = ['number', 'title']
+    prepopulated_fields = {"slug": ("title",)}
 
     ordering = ['number']
 

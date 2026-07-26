@@ -1,6 +1,7 @@
 from django.db import models
 from django.db.models import Max
 from products.models import SubscriptionProduct
+from sports.utils.slug import unique_slug_generator
 
 # Create your models here.
 
@@ -12,6 +13,7 @@ def get_next_course_number():
 
 class WorkoutCourse(models.Model):
     title = models.CharField(max_length=200, verbose_name='عنوان دوره')
+    slug = models.SlugField(max_length=200, unique=True, allow_unicode=True, verbose_name='عنوان در آدرس')
     description = models.TextField(blank=True, null=True, verbose_name='توضیحات کوتاه')
     subscription_product = models.ForeignKey(SubscriptionProduct, on_delete=models.PROTECT, related_name='courses', verbose_name='محصول اشتراکی مرجع')
 
@@ -26,6 +28,11 @@ class WorkoutCourse(models.Model):
     
     def __str__(self):
         return f"دوره {self.number}: {self.title}"
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = unique_slug_generator(self)
+        return super().save(*args, **kwargs)
 
 
 class DailyWorkout(models.Model):

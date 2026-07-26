@@ -1,21 +1,10 @@
 from django.db import models
 from django.utils.text import slugify
+from sports.utils.slug import unique_slug_generator
 
 # Create your models here.
 
 # Subscription Products
-
-def unique_slug_generator(instance, new_slug=None):
-    if new_slug is not None:
-        slug = new_slug
-    else:
-        slug = slugify(instance.title, allow_unicode=True)
-    Klass = instance.__class__
-    qs_exists = Klass.objects.filter(slug=slug).exists()
-    if qs_exists:
-        new_slug = f"{slug}-{Klass.objects.filter(slug__startswith=slug).count() + 1}"
-        return unique_slug_generator(instance, new_slug=new_slug)
-    return slug
 
 class SubscriptionProduct(models.Model):
     title = models.CharField(max_length=200, unique=True, verbose_name='عنوان')

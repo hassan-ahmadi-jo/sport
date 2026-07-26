@@ -87,7 +87,7 @@
 
           <div class="flex flex-col gap-3">
             {% for day in course.daily_workouts.all %}
-              <button data-url="{% url 'workout_day_detail' day_id=day.id %}" type="button" data-workout-id="{{ day.id }}" class="js-workout-day-btn workout-day-btn-normal-mode group">
+              <button data-url="{% url 'workout_day_detail' slug=course.slug day_id=day.id %}" type="button" data-workout-id="{{ day.id }}" class="js-workout-day-btn workout-day-btn-normal-mode group">
                 <div>
                   <span>روز {{ day.day_number }}</span>
                   <strong>{{ day.title }}</strong>
@@ -190,5 +190,5 @@
 {% endblock %}
 
 {% block script %}
-  <script src="{% static 'javascript/workout_club.js' %}"></script>
+  <script src="{% static 'javascript/workout_course.js' %}"></script>
 {% endblock %}
