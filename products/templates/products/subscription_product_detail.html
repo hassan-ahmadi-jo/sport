@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+  معرفی محصول
+{% endblock %}
+
+{% block body %}
+  <div class="container mx-auto px-4 py-8 max-w-7xl font-sans" dir="rtl">
+    <!-- بخش هدر محصول و وضعیت اشتراک -->
+    <div class="relative bg-gradient-to-br from-[var(--color-bg-surface)] via-[var(--color-bg-surface)] to-[var(--color-primary)]/5 border border-[var(--color-primary)]/15 rounded-3xl p-6 md:p-10 mb-14 shadow-xl shadow-[var(--color-primary)]/5 overflow-hidden backdrop-blur-xl">
+      <!-- افکت بک‌گراند نوری -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-[var(--color-primary)]/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-[var(--color-primary)]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+      <div class="flex flex-col lg:flex-row gap-8 lg:gap-10 relative z-10 items-center lg:items-stretch">
+        <!-- تصویر محصول -->
+        <div class="w-full lg:w-1/3 shrink-0">
+          <div class="aspect-video lg:aspect-square rounded-2xl overflow-hidden shadow-xl shadow-black/5 bg-gray-100 dark:bg-gray-800 relative group border border-gray-100 dark:border-gray-800">
+            {% if product.image %}
+              <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
+              <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            {% else %}
+              <div class="w-full h-full flex flex-col items-center justify-center text-[var(--color-text-muted)] gap-2">
+                <svg class="w-16 h-16 opacity-40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+                <span class="text-xs">تصویر محصول موجود نیست</span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- اطلاعات محصول -->
+        <div class="flex-1 flex flex-col justify-between w-full">
+          <div>
+            <!-- نشان‌ها (Badges) -->
+            <div class="flex flex-wrap items-center gap-3 mb-5">
+              <span class="inline-flex items-center gap-1.5 bg-[var(--color-primary)] text-white px-4 py-1.5 rounded-full text-xs font-extrabold shadow-md shadow-[var(--color-primary)]/25 tracking-wide">
+                <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                </svg>محصول ویژه
+              </span>
+              <span class="flex items-center gap-2 text-xs md:text-sm text-[var(--color-text-main)] font-semibold bg-white/90 dark:bg-gray-800/60 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-gray-200/50 dark:border-gray-700/50 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-[var(--color-primary)]"></span>
+                مربی: امین هاشمی
+              </span>
+            </div>
+
+            <!-- عنوان -->
+            <h1 class="text-3xl md:text-4xl lg:text-5xl font-black text-[var(--color-text-main)] mb-4 tracking-tight leading-tight">{{ product.title }}</h1>
+
+            <!-- توضیحات -->
+            <p class="text-[var(--color-text-muted)] text-sm md:text-base leading-relaxed max-w-3xl mb-8 line-clamp-3 font-normal">{{ product.description|default:'توضیحاتی برای این محصول ثبت نشده است.' }}</p>
+          </div>
+
+          <!-- وضعیت اشتراک کاربر -->
+          <div class="bg-white/95 dark:bg-gray-800/95 backdrop-blur-md rounded-2xl p-5 border border-gray-200 dark:border-gray-700 shadow-md flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mt-auto">
+            <div class="flex items-center gap-4">
+              <!-- آیکون -->
+              <div class="p-2.5 bg-blue-50 dark:bg-blue-900/30 rounded-xl text-[var(--color-primary)]">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
+
+              <!-- وضعیت -->
+              <div class="flex flex-col">
+                <span class="text-xs text-gray-600 dark:text-gray-300 mb-1.5 font-semibold">وضعیت اشتراک شما</span>
+                {% if user_has_active_subscription %}
+                  <span class="flex items-center gap-2 text-sm font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/40 px-3 py-1 rounded-lg">
+                    <span class="relative flex h-2.5 w-2.5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                    </span>
+                    فعال ({{ subscription_days_left }} روز باقی‌مانده)
+                  </span>
+                {% else %}
+                  <span class="inline-flex items-center gap-1.5 text-sm font-bold text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/40 px-3 py-1 rounded-lg">
+                    <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                    غیرفعال
+                  </span>
+                {% endif %}
+              </div>
+            </div>
+
+            <!-- دکمه مشاهده کامل محصول -->
+            <a href="{% url 'workout_club' %}" class="inline-flex items-center gap-2 text-sm font-bold bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary)]/90 px-4 py-2.5 rounded-xl shadow-md shadow-[var(--color-primary)]/20 transition-all duration-300 group shrink-0">
+              <span>مشاهده کامل محصول</span>
+              <svg class="w-4 h-4 transform rotate-180 transition-transform group-hover:-translate-x-1 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- بخش پکیج‌های قیمتی -->
+    <div class="mb-10 text-center max-w-xl mx-auto">
+      <span class="text-xs font-extrabold text-[var(--color-primary)] uppercase tracking-wider bg-[var(--color-primary)]/10 px-3.5 py-1.5 rounded-full inline-block mb-3">تعرفه‌ها و اشتراک‌ها</span>
+      <h2 class="text-3xl md:text-4xl font-black text-[var(--color-text-main)] mb-3 tracking-tight">پلان‌های اشتراک</h2>
+      <p class="text-sm md:text-base text-[var(--color-text-muted)]">پکیج مناسب خود را انتخاب کنید و همین امروز تمرینات خود را شروع کنید</p>
+    </div>
+
+    <!-- شبکه‌بندی کارت‌های قیمت -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for package in product.packages.all %}
+        {% if package.is_active %}
+          <!-- کارت پکیج -->
+          <div class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-3xl p-7 md:p-8 shadow-sm hover:shadow-2xl hover:shadow-[var(--color-primary)]/15 hover:border-[var(--color-primary)]/40 transition-all duration-500 flex flex-col relative group overflow-hidden hover:-translate-y-2">
+            <!-- بک گراند محو داخل کارت -->
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-[var(--color-primary)]/5 rounded-full blur-2xl group-hover:bg-[var(--color-primary)]/15 transition-all duration-500"></div>
+
+            {% if package.has_discount %}
+              <!-- بج درصد تخفیف -->
+              <span class="absolute top-5 left-5 bg-gradient-to-r from-rose-500 to-pink-500 text-white text-xs font-black px-3.5 py-1.5 rounded-full shadow-lg shadow-rose-500/25 tracking-wide">{{ package.discount_percent }}٪ تخفیف</span>
+            {% endif %}
+
+            <!-- عنوان پکیج و روزها -->
+            <div class="mb-6 mt-2">
+              <!-- اصلاح شده: بج تعداد روز دسترسی با فونت کاملاً واضح و پررنگ -->
+              <span class="inline-flex items-center gap-2 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 text-[var(--color-text-main)] text-xs font-extrabold px-3 py-1.5 rounded-xl mb-3 shadow-sm">
+                <svg class="w-4 h-4 text-[var(--color-primary)] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                <span>{{ package.duration_days }} روز دسترسی کامل</span>
+              </span>
+
+              <h3 class="text-2xl font-extrabold text-[var(--color-text-main)] group-hover:text-[var(--color-primary)] transition-colors duration-300">{{ package.title }}</h3>
+            </div>
+
+            <!-- خط جداکننده -->
+            <div class="w-full h-px bg-gradient-to-r from-transparent via-gray-200 dark:via-gray-800 to-transparent mb-6"></div>
+
+            <!-- بخش قیمت -->
+            <div class="mb-8 flex-1 flex flex-col justify-end">
+              {% if package.has_discount %}
+                <div class="flex flex-col">
+                  <span class="text-sm font-semibold text-gray-400 dark:text-gray-500 line-through mb-1">{{ package.price_without_discount|floatformat:0 }} تومان</span>
+                  <div class="flex items-baseline gap-1.5 text-[var(--color-primary)]">
+                    <span class="text-4xl font-black tracking-tight">{{ package.price|floatformat:0 }}</span>
+                    <span class="text-sm font-bold opacity-80">تومان</span>
+                  </div>
+                </div>
+              {% else %}
+                <div class="flex items-baseline gap-1.5 text-[var(--color-text-main)]">
+                  <span class="text-4xl font-black tracking-tight">{{ package.price|floatformat:0 }}</span>
+                  <span class="text-sm font-bold text-[var(--color-text-muted)]">تومان</span>
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- دکمه افزودن به سبد خرید -->
+            <form action="#" method="POST" class="mt-auto relative z-10">
+              {% csrf_token %}
+              <input type="hidden" name="package_id" value="{{ package.id }}" />
+              <button type="submit" class="w-full cursor-pointer relative group/btn inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-5 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
+                <svg class="w-5 h-5 transition-transform duration-300 group-hover/btn:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
+                </svg>
+                <span>افزودن به سبد خرید</span>
+              </button>
+            </form>
+          </div>
+        {% endif %}
+      {% empty %}
+        <div class="col-span-full text-center py-16 bg-gray-50/50 dark:bg-gray-800/30 rounded-3xl border-2 border-dashed border-gray-200 dark:border-gray-800 max-w-lg mx-auto w-full">
+          <div class="w-16 h-16 bg-gray-100 dark:bg-gray-800 rounded-2xl flex items-center justify-center mx-auto mb-4 text-[var(--color-text-muted)]">
+            <svg class="w-8 h-8 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+            </svg>
+          </div>
+          <p class="text-[var(--color-text-muted)] font-medium text-base">در حال حاضر پکیجی برای این محصول فعال نیست.</p>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}
