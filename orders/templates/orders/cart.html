@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block title %}
+  سبد خرید
+{% endblock %}
+
+{% block body %}
+<div class="container mx-auto px-4 py-8 md:py-12 max-w-7xl font-sans" dir="rtl">
+    
+    <!-- هدر صفحه -->
+    <div class="mb-10 flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-gray-100 dark:border-gray-800 pb-6">
+      <div>
+        <span class="text-xs font-extrabold text-[var(--color-primary)] uppercase tracking-wider bg-[var(--color-primary)]/10 px-3 py-1 rounded-full inline-block mb-2">
+          مدیریت خریدها
+        </span>
+        <h1 class="text-3xl md:text-4xl font-black text-[var(--color-text-main)] tracking-tight mb-2">سبد خرید شما</h1>
+        <p class="text-sm md:text-base text-[var(--color-text-muted)]">
+          {% if cart.subscription_items.count > 0 %}
+            شما <span class="font-bold text-[var(--color-text-main)]">{{ cart.subscription_items.count }}</span> پکیج در سبد خرید خود دارید.
+          {% else %}
+            سبد خرید شما در حال حاضر خالی است.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+
+    {% if cart.subscription_items.count > 0 %}
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        
+        <!-- لیست آیتم‌های سبد خرید (بخش راست) -->
+        <div class="w-full lg:w-2/3 flex flex-col gap-4">
+          {% for item in cart.subscription_items.all %}
+            <!-- کارت هر آیتم -->
+            <div class="flex flex-col sm:flex-row items-center justify-between bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-3xl p-5 sm:p-6 shadow-sm hover:shadow-xl hover:shadow-[var(--color-primary)]/5 hover:border-[var(--color-primary)]/30 transition-all duration-300 group">
+              
+              <!-- اطلاعات پکیج -->
+              <div class="flex items-center gap-4 w-full sm:w-auto mb-4 sm:mb-0">
+                <!-- آیکون تزئینی -->
+                <div class="w-14 h-14 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center shrink-0 text-[var(--color-primary)] shadow-sm group-hover:scale-105 transition-transform duration-300">
+                  <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+
+                <div>
+                  <h3 class="text-lg font-extrabold text-[var(--color-text-main)] mb-1 group-hover:text-[var(--color-primary)] transition-colors">{{ item.package.title }}</h3>
+                  <span class="inline-flex items-center gap-1.5 text-xs text-[var(--color-text-muted)] bg-gray-100 dark:bg-gray-800 px-2.5 py-1 rounded-md font-medium">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[var(--color-primary)]"></span>
+                    {{ item.package.product.title }}
+                  </span>
+                </div>
+              </div>
+
+              <!-- قیمت و دکمه حذف -->
+              <div class="flex items-center justify-between w-full sm:w-auto sm:gap-6 border-t sm:border-t-0 pt-4 sm:pt-0 border-gray-100 dark:border-gray-800">
+                <div class="text-left">
+                  <span class="text-xl font-black text-[var(--color-text-main)] tracking-tight">{{ item.price|intcomma }} <span class="text-xs font-bold text-[var(--color-text-muted)]">تومان</span></span>
+                </div>
+
+                <!-- فرم حذف آیتم -->
+                <form action="{% url 'cart' %}" method="POST" class="m-0 p-0">
+                  {% csrf_token %}
+                  <!-- input hidden for item_id -->
+                  <button type="submit" name="remove" value="{{item.id}}" class="w-10 cursor-pointer h-10 flex items-center justify-center text-gray-400 hover:text-rose-600 bg-gray-50 dark:bg-gray-800 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-2xl transition-all duration-300 shadow-sm" title="حذف از سبد">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                    </svg>
+                  </button>
+                </form>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- فاکتور و پرداخت (بخش چپ) -->
+        <div class="w-full lg:w-1/3">
+          <div class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-3xl p-6 md:p-8 shadow-xl shadow-gray-200/20 dark:shadow-none sticky top-8">
+            <h3 class="text-xl font-extrabold text-[var(--color-text-main)] mb-6 border-b border-gray-100 dark:border-gray-800 pb-4 flex items-center gap-2">
+              <svg class="w-5 h-5 text-[var(--color-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+              خلاصه سفارش
+            </h3>
+
+            <div class="flex flex-col gap-4 mb-6 text-sm md:text-base">
+              <div class="flex justify-between items-center text-[var(--color-text-muted)] font-medium">
+                <span>مبلغ پکیج‌ها</span>
+                <span class="font-bold text-[var(--color-text-main)]">{{ cart.total_price|intcomma }} تومان</span>
+              </div>
+              
+              <!-- ردیف مالیات بر ارزش افزوده -->
+              <div class="flex justify-between items-center text-[var(--color-text-muted)] font-medium">
+                <span>مالیات بر ارزش افزوده (۱۰٪)</span>
+                <span class="font-bold text-[var(--color-text-main)]">{{ cart.tax_amount|intcomma }} تومان</span>
+              </div>
+            </div>
+
+            <div class="flex justify-between items-center border-t border-gray-100 dark:border-gray-800 pt-5 mb-8">
+              <span class="text-base font-bold text-[var(--color-text-main)]">مبلغ قابل پرداخت</span>
+              <span class="text-2xl font-black text-[var(--color-primary)] tracking-tight">{{ cart.payable_amount|intcomma }} <span class="text-xs font-bold opacity-80">تومان</span></span>
+            </div>
+
+            <a href="#" class="w-full relative group inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
+              <span>تایید و پرداخت نهایی</span>
+              <svg class="w-5 h-5 transform rotate-180 transition-transform group-hover:-translate-x-1 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <!-- حالت خالی بودن سبد (Empty State) -->
+      <div class="flex flex-col items-center justify-center py-20 px-6 bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-3xl text-center shadow-sm max-w-xl mx-auto my-12 relative overflow-hidden">
+        
+        <!-- افکت نور پس‌زمینه خالی -->
+        <div class="absolute inset-0 bg-[var(--color-primary)]/5 rounded-full blur-3xl -z-10"></div>
+
+        <div class="w-24 h-24 bg-[var(--color-primary)]/10 rounded-3xl flex items-center justify-center mb-6 text-[var(--color-primary)] shadow-sm">
+          <svg class="w-12 h-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
+          </svg>
+        </div>
+        <h2 class="text-2xl md:text-3xl font-black text-[var(--color-text-main)] mb-3">سبد خرید شما خالی است!</h2>
+        <p class="text-sm md:text-base text-[var(--color-text-muted)] mb-8 max-w-md leading-relaxed">شما هنوز هیچ پکیج اشتراکی به سبد خرید خود اضافه نکرده‌اید. برای شروع تمرینات، پکیج مناسب خود را انتخاب کنید.</p>
+        <a href="#" class="inline-flex items-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-3.5 px-8 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:shadow-[var(--color-primary)]/35">
+          مشاهده دوره‌ها و پکیج‌ها
+        </a>
+      </div>
+    {% endif %}
+</div>
+{% endblock %}

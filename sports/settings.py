@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'unfold',
+    # 'unfold',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -39,9 +39,11 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'phonenumber_field',
+    'django.contrib.humanize',
     'accounts',
     'workouts',
     'products',
+    'orders',
 ]
 
 MIDDLEWARE = [
@@ -160,5 +162,13 @@ ACCOUNT_REQUEST_MAX_ATTEMPTS = 10
 
 # Time window duration in hours (e.g., 24 hours)
 ACCOUNT_REQUEST_WINDOW_HOURS = 12 # hours
+
+# enable thousand separator for intcomma formatting
+USE_THOUSAND_SEPARATOR = True
+THOUSAND_SEPARATOR = ','
+NUMBER_GROUPING = 3
+
+# Login URL
+LOGIN_URL = '/profile/login'
 
 

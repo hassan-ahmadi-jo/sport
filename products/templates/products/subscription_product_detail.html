@@ -85,7 +85,7 @@
             </div>
 
             <!-- دکمه مشاهده کامل محصول -->
-            <a href="{% url 'workout_course' %}" class="inline-flex items-center gap-2 text-sm font-bold bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary)]/90 px-4 py-2.5 rounded-xl shadow-md shadow-[var(--color-primary)]/20 transition-all duration-300 group shrink-0">
+            <a href="{% url 'workout_course' slug=product.courses.first.slug  %}" class="inline-flex items-center gap-2 text-sm font-bold bg-[var(--color-primary)] text-white hover:bg-[var(--color-primary)]/90 px-4 py-2.5 rounded-xl shadow-md shadow-[var(--color-primary)]/20 transition-all duration-300 group shrink-0">
               <span>مشاهده کامل محصول</span>
               <svg class="w-4 h-4 transform rotate-180 transition-transform group-hover:-translate-x-1 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
@@ -152,10 +152,15 @@
             </div>
 
             <!-- دکمه افزودن به سبد خرید -->
-            <form action="#" method="POST" class="mt-auto relative z-10">
+            <form action="{% url 'cart' %}" method="POST" class="mt-auto relative z-10">
               {% csrf_token %}
-              <input type="hidden" name="package_id" value="{{ package.id }}" />
-              <button type="submit" class="w-full cursor-pointer relative group/btn inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-5 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
+              {% comment %} <input type="hidden" name="package_id" value="{{ package.id }}" /> {% endcomment %}
+              <button  name="add", value="{{package.id}}" class="w-full cursor-pointer relative group/btn inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-5 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]"
+              {% if not user.is_authenticated %}
+              type="button" onclick="window.location.href='{% url 'login' %}?next={{request.path}}'"
+              {% else %}
+              type="submit"
+              {% endif %}>
                 <svg class="w-5 h-5 transition-transform duration-300 group-hover/btn:-translate-y-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
                 </svg>

@@ -2,6 +2,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
+
 /* تعریف تم اختصاصی در Tailwind v4 برای شناسایی کلاس‌های رنگی مثل text-main */
 @theme {
     --color-bg-default: #F7F5F2;
