@@ -1,8 +1,8 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from . import models
+from . import models, services
 from products.models import SubscriptionPackage
 
 # Create your views here.
@@ -32,3 +32,10 @@ class CartView(LoginRequiredMixin, View):
             'cart': user.cart
         }
         return render(request, self.template_name, context=context)
+
+class OrderView(LoginRequiredMixin, View):
+    def post(self, request:HttpRequest):
+        user = self.request.user
+        cart = user.cart
+        services.create_order(user, cart.id)
+        return redirect('cart')

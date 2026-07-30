@@ -1,6 +1,8 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from accounts.models import User
 from products.models import SubscriptionPackage
+import uuid
 
 # Create your models here.
 
@@ -56,6 +58,15 @@ class CartSubscriptionItem(models.Model):
     @property
     def price(self):
         return self.package.price
+
+    def clean(self):
+        super().clean()
+        if not (self.package.is_active or self.package.product.is_active):
+            raise ValidationError('امکان افزودن پکیج یا محصول غیرفعال به سبد خرید وجود ندارد.')
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        super().save(*args, **kwargs)
         
     class Meta:
         constraints = [
@@ -73,3 +84,68 @@ class CartSubscriptionItem(models.Model):
         else:
             user = str(self.cart.user.phone_number)
         return f'{user} - {self.package.title}'
+
+
+class Order(models.Model):
+    STATUS_PENDING = 'pending'
+    STATUS_PAID = 'paid'
+    STATUS_FAILED = 'failed'
+    STATUS_CANCELED = 'canceled'
+
+    STATUS_CHOICES = [
+        (STATUS_PENDING, 'در انتظار پرداخت'),
+        (STATUS_PAID, 'پرداخت شده'),
+        (STATUS_FAILED, 'پرداخت ناموفق'),
+        (STATUS_CANCELED, 'لغو شده'),
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders', verbose_name='کاربر')
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING, verbose_name='وضعیت')
+
+    tracking_code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, verbose_name='کد پیگیری داخلی')
+
+    no_tax_amount = models.PositiveIntegerField(verbose_name='مبلغ بدون مالیات')
+    total_price = models.PositiveIntegerField(verbose_name='مبلغ نهایی')
+
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')
+
+    authority = models.CharField(max_length=255, blank=True, null=True, verbose_name='authority درگاه')
+    ref_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ref id درگاه')
+
+    @property
+    def tax_amount(self):
+        return self.total_price - self.no_tax_amount
+
+    class Meta:
+        verbose_name = 'سفارش'
+        verbose_name_plural = 'سفارش‌ها'
+
+    def __str__(self):
+        return f'سفارش {self.id} - {self.user}'
+
+
+class OrderSubscriptionItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='subscription_items', verbose_name='سفارش')
+    package = models.ForeignKey(SubscriptionPackage, on_delete=models.CASCADE, related_name='order_items', verbose_name='پکیج')
+
+    package_title = models.CharField(max_length=200, verbose_name='عنوان پکیج')
+    product_title = models.CharField(max_length=200, verbose_name='عنوان محصول')
+    price = models.PositiveIntegerField(verbose_name='قیمت خرید')
+
+    class Meta:
+        verbose_name = 'آیتم خرید سفارش'
+        verbose_name_plural = 'آیتم‌های خرید سفارش'
+
+    def __str__(self):
+        return f'{self.product_title} - {self.package_title}'
+
+    def save(self, *args, **kwargs):
+        if not self.package_title:
+            self.package_title = self.package.title
+        if not self.product_title:
+            self.product_title = self.package.product.title
+        if not self.price:
+            self.price = self.package.price
+        return super().save(*args, **kwargs)
