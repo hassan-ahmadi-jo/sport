@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block extra_head %}
+  <!-- جلوگیری از ایندکس شدن صفحه اختصاصی پرداخت توسط موتورهای جستجو -->
+  <meta name="robots" content="noindex, nofollow" />
+{% endblock %}
+
+{% block title %}
+وضعیت پرداخت
+{% endblock %}
+
+{% block body %}
+<div class="min-h-[75vh] flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 font-sans" dir="rtl">
+    <div class="max-w-2xl w-full bg-[var(--color-bg-surface)] rounded-3xl shadow-xl shadow-gray-200/40 dark:shadow-none border border-gray-200/80 dark:border-gray-800 overflow-hidden transition-all duration-300">
+      
+      {% if success %}
+        <!-- هدر وضعیت موفق -->
+        <div class="bg-emerald-50/70 dark:bg-emerald-950/30 p-8 md:p-10 text-center border-b border-emerald-100 dark:border-emerald-900/40 relative overflow-hidden">
+          <!-- افکت نور پس‌زمینه -->
+          <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-2xl bg-emerald-500/10 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 mb-5 shadow-sm ring-8 ring-emerald-500/5">
+            <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-black text-emerald-900 dark:text-emerald-300 mb-2 tracking-tight">پرداخت با موفقیت انجام شد</h2>
+          <p class="text-sm md:text-base text-emerald-700 dark:text-emerald-400/90 font-medium max-w-md mx-auto">از خرید شما سپاسگزاریم. اشتراک شما با موفقیت فعال شد.</p>
+        </div>
+
+        <div class="p-6 md:p-8 space-y-8">
+          
+          <!-- اطلاعات کلی سفارش -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 bg-gray-50/80 dark:bg-gray-800/40 p-4 rounded-2xl border border-gray-100 dark:border-gray-800 text-sm">
+            <div class="flex justify-between items-center p-3 rounded-xl bg-[var(--color-bg-surface)] border border-gray-100 dark:border-gray-800 shadow-2xs">
+              <span class="text-[var(--color-text-muted)] font-medium">شماره سفارش</span>
+              <span class="font-black text-[var(--color-text-main)] font-mono">{{ order.id }}</span>
+            </div>
+            <div class="flex justify-between items-center p-3 rounded-xl bg-[var(--color-bg-surface)] border border-gray-100 dark:border-gray-800 shadow-2xs">
+              <span class="text-[var(--color-text-muted)] font-medium">کد رهگیری درگاه</span>
+              <span class="font-black text-[var(--color-text-main)] font-mono">{{ order.ref_id|default:message }}</span>
+            </div>
+            <div class="flex justify-between items-center p-3 rounded-xl bg-[var(--color-bg-surface)] border border-gray-100 dark:border-gray-800 shadow-2xs">
+              <span class="text-[var(--color-text-muted)] font-medium">کد پیگیری داخلی</span>
+              <span class="font-black text-[var(--color-text-main)] font-mono truncate max-w-[140px]" dir="ltr">{{ order.tracking_code }}</span>
+            </div>
+            <div class="flex justify-between items-center p-3 rounded-xl bg-[var(--color-bg-surface)] border border-gray-100 dark:border-gray-800 shadow-2xs">
+              <span class="text-[var(--color-text-muted)] font-medium">تاریخ ثبت</span>
+              <span class="font-bold text-[var(--color-text-main)]">{{ order.created_at|date:'Y/m/d - H:i' }}</span>
+            </div>
+          </div>
+
+          <!-- لیست آیتم‌های خریداری شده -->
+          <div>
+            <h3 class="text-base font-extrabold text-[var(--color-text-main)] mb-3 flex items-center gap-2">
+              <span class="w-2 h-2 rounded-full bg-[var(--color-primary)]"></span>
+              جزئیات اشتراک‌های خریداری شده
+            </h3>
+            <div class="bg-gray-50/50 dark:bg-gray-800/30 rounded-2xl p-4 border border-gray-100 dark:border-gray-800 space-y-2">
+              {% for item in order.subscription_items.all %}
+                <div class="flex justify-between items-center py-2.5 px-3 rounded-xl {% if not forloop.last %}border-b border-gray-200/60 dark:border-gray-800{% endif %}">
+                  <div>
+                    <p class="font-bold text-[var(--color-text-main)] text-sm md:text-base">{{ item.product_title }}</p>
+                    <p class="text-xs text-[var(--color-text-muted)] mt-0.5">{{ item.package_title }}</p>
+                  </div>
+                  <span class="font-extrabold text-[var(--color-text-main)] text-sm md:text-base">{{ item.price|intcomma }} <span class="text-xs text-[var(--color-text-muted)] font-normal">تومان</span></span>
+                </div>
+              {% empty %}
+                <p class="text-[var(--color-text-muted)] text-center text-sm py-2">آیتمی یافت نشد.</p>
+              {% endfor %}
+            </div>
+          </div>
+
+          <!-- خلاصه مالی -->
+          <div class="border-t border-gray-100 dark:border-gray-800 pt-5 space-y-2.5 text-sm">
+            <div class="flex justify-between items-center text-[var(--color-text-muted)] font-medium">
+              <span>مبلغ کل (بدون مالیات)</span>
+              <span class="font-bold text-[var(--color-text-main)]">{{ order.no_tax_amount|intcomma }} تومان</span>
+            </div>
+            <div class="flex justify-between items-center text-[var(--color-text-muted)] font-medium">
+              <span>مالیات بر ارزش افزوده (۱۰٪)</span>
+              <span class="font-bold text-[var(--color-text-main)]">{{ order.tax_amount|intcomma }} تومان</span>
+            </div>
+            <div class="flex justify-between items-center pt-4 border-t border-gray-100 dark:border-gray-800">
+              <span class="text-base font-extrabold text-[var(--color-text-main)]">مبلغ پرداختی نهایی</span>
+              <span class="text-2xl font-black text-emerald-600 dark:text-emerald-400 tracking-tight">{{ order.total_price|intcomma }} <span class="text-xs font-bold text-[var(--color-text-muted)]">تومان</span></span>
+            </div>
+          </div>
+
+          <!-- دکمه ورود به پنل -->
+          <div class="pt-2">
+            <a href="{% url 'dashboard' %}" class="w-full inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
+              <span>ورود به پنل کاربری</span>
+              <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+
+      {% else %}
+
+        <!-- هدر وضعیت ناموفق -->
+        <div class="bg-rose-50/70 dark:bg-rose-950/30 p-8 md:p-10 text-center border-b border-rose-100 dark:border-rose-900/40 relative overflow-hidden">
+          <!-- افکت نور پس‌زمینه -->
+          <div class="absolute -top-12 left-1/2 -translate-x-1/2 w-48 h-48 bg-rose-500/10 rounded-full blur-2xl pointer-events-none"></div>
+
+          <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-2xl bg-rose-500/10 dark:bg-rose-500/20 text-rose-600 dark:text-rose-400 mb-5 shadow-sm ring-8 ring-rose-500/5">
+            <svg class="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl md:text-3xl font-black text-rose-900 dark:text-rose-300 mb-2 tracking-tight">پرداخت ناموفق بود</h2>
+          <p class="text-sm md:text-base text-rose-700 dark:text-rose-400/90 font-medium max-w-md mx-auto">متأسفانه فرآیند پرداخت تکمیل نشد یا توسط شما لغو گردید.</p>
+        </div>
+
+        <div class="p-6 md:p-8 text-center space-y-6">
+          <div class="bg-gray-50/80 dark:bg-gray-800/40 border border-gray-100 dark:border-gray-800 rounded-2xl p-5 max-w-md mx-auto">
+            <p class="text-xs text-[var(--color-text-muted)] font-semibold uppercase tracking-wider mb-2">علت خطا</p>
+            <p class="font-extrabold text-[var(--color-text-main)] text-sm md:text-base" dir="ltr">
+              {% if message == 'STATUS_NOT_OK' %}
+                پرداخت توسط کاربر لغو شد (انصراف)
+              {% elif message == 'AUTHORITY_NOT_VALID' %}
+                شناسه پرداخت نامعتبر است
+              {% else %}
+                {{ message }}
+              {% endif %}
+            </p>
+          </div>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+            <a href="{% url 'cart' %}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-3.5 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path></svg>
+              تلاش مجدد
+            </a>
+            <a href="/" class="w-full sm:w-auto inline-flex items-center justify-center bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[var(--color-text-main)] font-bold py-3.5 px-8 rounded-2xl transition-all duration-300">
+              بازگشت به صفحه اصلی
+            </a>
+          </div>
+        </div>
+
+      {% endif %}
+      
+    </div>
+</div>
+{% endblock %}

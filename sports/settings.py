@@ -171,4 +171,9 @@ NUMBER_GROUPING = 3
 # Login URL
 LOGIN_URL = '/profile/login'
 
+# ZARINPAL
+ZARINPAL_MERCHANT_ID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+ZARINPAL_ACCESS_TOKEN = ''
+ZARINPAL_SANDBOX = True
+
 

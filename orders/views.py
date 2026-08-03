@@ -33,9 +33,38 @@ class CartView(LoginRequiredMixin, View):
         }
         return render(request, self.template_name, context=context)
 
-class OrderView(LoginRequiredMixin, View):
+class PaymentOrderView(LoginRequiredMixin, View):
     def post(self, request:HttpRequest):
         user = self.request.user
         cart = user.cart
-        services.create_order(user, cart.id)
+        order = services.create_order(user, cart.id)
+        payment_url = services.initiate_payment(request, order)
+        if payment_url:
+            return redirect(payment_url)
         return redirect('cart')
+        # return render(request, 'error.html', {'message': 'خطا در درگاه'})
+
+class PaymentVerifyView(LoginRequiredMixin, View):
+    template_name = 'orders/payment_verify.html'
+    
+    def get(self, request:HttpRequest):
+        authority = request.GET.get('Authority')
+        status = request.GET.get('Status')
+        order = None
+        if not authority:
+            success = False
+            message = 'AUTHORITY_NOT_VALID'
+        elif status != 'OK':
+            success = False
+            message = 'STATUS_NOT_OK'
+        else:
+            order = get_object_or_404(models.Order.objects.select_related('user'), authority=authority, user__id=request.user.id)
+            success, message = services.verify_payment(authority, order.total_price, order.pk)
+            # TODO: Add Subscription to user and check if its the first time
+        context = {
+            'success': success,
+            'message': message,
+        }
+        if order:
+            context['order'] = order
+        return render(request, self.template_name, context)

@@ -90,13 +90,11 @@ class Order(models.Model):
     STATUS_PENDING = 'pending'
     STATUS_PAID = 'paid'
     STATUS_FAILED = 'failed'
-    STATUS_CANCELED = 'canceled'
 
     STATUS_CHOICES = [
         (STATUS_PENDING, 'در انتظار پرداخت'),
         (STATUS_PAID, 'پرداخت شده'),
         (STATUS_FAILED, 'پرداخت ناموفق'),
-        (STATUS_CANCELED, 'لغو شده'),
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='orders', verbose_name='کاربر')
@@ -113,6 +111,10 @@ class Order(models.Model):
 
     authority = models.CharField(max_length=255, blank=True, null=True, verbose_name='authority درگاه')
     ref_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ref id درگاه')
+
+    subscriptions_activated = models.BooleanField(default=False, verbose_name="اشتراک‌های سفارش فعال شده‌اند؟")
+
+    subscriptions_activated_at = models.DateTimeField(null=True, blank=True, verbose_name="زمان فعال‌سازی اشتراک‌ها")
 
     @property
     def tax_amount(self):

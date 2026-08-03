@@ -100,7 +100,7 @@
               <span class="text-2xl font-black text-[var(--color-primary)] tracking-tight">{{ cart.payable_amount|intcomma }} <span class="text-xs font-bold opacity-80">تومان</span></span>
             </div>
 
-            <form method="post" action="{% url 'order' %}">
+            <form method="post" action="{% url 'payment' %}">
               {% csrf_token %}
               <button type="submit" class="w-full cursor-pointer relative group inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-6 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
                 <span>تایید و پرداخت نهایی</span>
