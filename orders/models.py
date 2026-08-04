@@ -112,9 +112,7 @@ class Order(models.Model):
     authority = models.CharField(max_length=255, blank=True, null=True, verbose_name='authority درگاه')
     ref_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ref id درگاه')
 
-    subscriptions_activated = models.BooleanField(default=False, verbose_name="اشتراک‌های سفارش فعال شده‌اند؟")
 
-    subscriptions_activated_at = models.DateTimeField(null=True, blank=True, verbose_name="زمان فعال‌سازی اشتراک‌ها")
 
     @property
     def tax_amount(self):
@@ -135,6 +133,9 @@ class OrderSubscriptionItem(models.Model):
     package_title = models.CharField(max_length=200, verbose_name='عنوان پکیج')
     product_title = models.CharField(max_length=200, verbose_name='عنوان محصول')
     price = models.PositiveIntegerField(verbose_name='قیمت خرید')
+
+    subscriptions_activated = models.BooleanField(default=False, verbose_name='اشتراک فعال شده است؟')
+    subscriptions_activated_at = models.DateTimeField(null=True, blank=True, verbose_name="زمان فعال‌سازی اشتراک")
 
     class Meta:
         verbose_name = 'آیتم خرید سفارش'

@@ -2,8 +2,12 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpRequest
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db import transaction
+from django.utils import timezone
+from datetime import timedelta
 from . import models, services
 from products.models import SubscriptionPackage
+from entitlements.models import SubscriptionEntitlement, SubscriptionOrderHistory
 
 # Create your views here.
 
@@ -60,7 +64,12 @@ class PaymentVerifyView(LoginRequiredMixin, View):
         else:
             order = get_object_or_404(models.Order.objects.select_related('user'), authority=authority, user__id=request.user.id)
             success, message = services.verify_payment(authority, order.total_price, order.pk)
-            # TODO: Add Subscription to user and check if its the first time
+            if success:
+                user_id = request.user.id
+                for order_item in order.subscription_items.select_related('package', 'package__product').all():
+                    added = services.add_subscription_to_user(user_id, order_item.id)
+                    if added:
+                        services.remove_user_cart_item(user_id, order_item.id)
         context = {
             'success': success,
             'message': message,

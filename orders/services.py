@@ -5,6 +5,9 @@ from django.conf import settings
 from django.urls import reverse
 import logging
 from zarinpal import ZarinPal
+from django.utils import timezone
+from datetime import timedelta
+from entitlements.models import SubscriptionEntitlement, SubscriptionOrderHistory
 
 from accounts.models import User
 from . import models
@@ -125,3 +128,64 @@ def verify_payment(authority: str, amount: int, order_pk):
     except Exception as e:
         logger.exception(f"Payment Verification Error: {e}")
         return False, "GATEWAY_ERROR"
+
+
+@transaction.atomic
+def add_subscription_to_user(user_id, order_item_id):
+    try:
+        user = User.objects.select_for_update().get(id=user_id)
+        order_item = models.OrderSubscriptionItem.objects.select_related('order', 'package', 'package__product').select_for_update().get(
+            id=order_item_id,
+            order__user__id = user_id,
+            order__status = models.Order.STATUS_PAID
+            )
+        
+    except User.DoesNotExist:
+        logger.warning(
+            'Subscription activation failed: user does not exist. user_id=%s',
+            user_id,
+        )
+        return False
+
+    except models.OrderSubscriptionItem.DoesNotExist:
+        logger.warning(
+            'Subscription activation failed: invalid or unpaid order item. '
+            'user_id=%s, order_item_id=%s',
+            user_id,
+            order_item_id,
+        )
+        return False
+    now = timezone.now()
+    if not SubscriptionOrderHistory.objects.filter(order_item=order_item).exists() and not order_item.subscriptions_activated:
+        product = order_item.package.product
+        try:
+            entitlement = SubscriptionEntitlement.objects.select_for_update().get(user=user, product=product)
+        except SubscriptionEntitlement.DoesNotExist:
+            entitlement = SubscriptionEntitlement.objects.create(user=user, product=product)
+
+        expires_at = entitlement.expires_at 
+        duration_days = timedelta(days=order_item.package.duration_days)
+        if expires_at is None or expires_at < now:
+            entitlement.expires_at = now + duration_days
+        else:
+            entitlement.expires_at = expires_at + duration_days
+        entitlement.save(update_fields = ['expires_at'])
+        SubscriptionOrderHistory.objects.create(
+            entitlement = entitlement,
+            order_item = order_item
+        )
+        order_item.subscriptions_activated = True
+        order_item.subscriptions_activated_at = now
+        order_item.save(update_fields = ['subscriptions_activated', 'subscriptions_activated_at'])
+        return True
+    return False
+
+@transaction.atomic
+def remove_user_cart_item(user_id, order_item_id):
+    order_item = models.OrderSubscriptionItem.objects.select_related('order', 'package', 'package__product').select_for_update().get(id=order_item_id)
+    cart_items = models.CartSubscriptionItem.objects.select_related('cart', 'cart__user', 'package', 'package__product').select_for_update().filter(
+        cart__user__id=user_id,
+        package=order_item.package
+        ).all()
+    for cart_item in cart_items:
+        cart_item.delete()
