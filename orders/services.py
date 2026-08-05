@@ -74,6 +74,7 @@ def initiate_payment(request, order):
         if "data" in response and "authority" in response["data"]:
             authority = response["data"]["authority"]
             order.authority = authority 
+            order.save(update_fields = ['authority'])
 
             
             payment_url = zarinpal.payments.generate_payment_url(authority)

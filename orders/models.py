@@ -1,10 +1,16 @@
-from django.db import models
+from django.db import models, transaction, IntegrityError
 from django.core.exceptions import ValidationError
 from accounts.models import User
 from products.models import SubscriptionPackage
-import uuid
-
+import string
+import secrets
 # Create your models here.
+
+def generate_order_tracking_code(user_id, user_order_index, length):
+    allowed_chars = string.ascii_uppercase + string.ascii_lowercase + string.digits * 3
+    allowed_chars = ''.join(c for c in allowed_chars if c not in '01OILl') 
+    random_suffix = ''.join(secrets.choice(allowed_chars) for _ in range(length))
+    return f'{user_id}-{user_order_index}-{random_suffix}'
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cart', verbose_name='user')
@@ -101,7 +107,7 @@ class Order(models.Model):
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=STATUS_PENDING, verbose_name='وضعیت')
 
-    tracking_code = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, verbose_name='کد پیگیری داخلی')
+    tracking_code = models.CharField(max_length=70, blank=True, null=True, unique=True, editable=False, verbose_name='کد پیگیری داخلی')
 
     no_tax_amount = models.PositiveIntegerField(verbose_name='مبلغ بدون مالیات')
     total_price = models.PositiveIntegerField(verbose_name='مبلغ نهایی')
@@ -109,9 +115,21 @@ class Order(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='زمان ایجاد')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='زمان بروزرسانی')
 
-    authority = models.CharField(max_length=255, blank=True, null=True, verbose_name='authority درگاه')
+    authority = models.CharField(db_index=True, max_length=255, blank=True, null=True, verbose_name='authority درگاه')
     ref_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ref id درگاه')
 
+    def save(self, *args, **kwargs):
+        if self.tracking_code:
+            return super().save(*args, **kwargs)
+
+        user_order_index = Order.objects.filter(user__id=self.user.id).count() + 1
+        for _ in range(10):  # retry limit
+            self.tracking_code = generate_order_tracking_code(self.user.id, user_order_index, 4)
+            try:
+                with transaction.atomic():
+                    return super().save(*args, **kwargs)
+            except IntegrityError:
+                self.tracking_code = None
 
 
     @property

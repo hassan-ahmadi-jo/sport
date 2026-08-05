@@ -34,8 +34,8 @@
           <!-- اطلاعات کلی سفارش -->
           <div class="grid grid-cols-1 md:grid-cols-2 gap-3.5 bg-gray-50/80 dark:bg-gray-800/40 p-4 rounded-2xl border border-gray-100 dark:border-gray-800 text-sm">
             <div class="flex justify-between items-center p-3 rounded-xl bg-[var(--color-bg-surface)] border border-gray-100 dark:border-gray-800 shadow-2xs">
-              <span class="text-[var(--color-text-muted)] font-medium">شماره سفارش</span>
-              <span class="font-black text-[var(--color-text-main)] font-mono">{{ order.id }}</span>
+              <span class="text-[var(--color-text-muted)] font-medium">سفارش‌های ثبت شده شما</span>
+              <span class="font-black text-[var(--color-text-main)] font-mono">{{ user.orders.count }}</span>
             </div>
             <div class="flex justify-between items-center p-3 rounded-xl bg-[var(--color-bg-surface)] border border-gray-100 dark:border-gray-800 shadow-2xs">
               <span class="text-[var(--color-text-muted)] font-medium">کد رهگیری درگاه</span>
@@ -90,7 +90,7 @@
 
           <!-- دکمه ورود به پنل -->
           <div class="pt-2">
-            <a href="{% url 'dashboard' %}" class="w-full inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
+            <a href="{% url 'profile' %}" class="w-full inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold py-4 px-8 rounded-2xl transition-all duration-300 shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl hover:shadow-[var(--color-primary)]/35 active:scale-[0.98]">
               <span>ورود به پنل کاربری</span>
               <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>

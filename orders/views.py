@@ -7,6 +7,7 @@ from django.utils import timezone
 from datetime import timedelta
 from . import models, services
 from products.models import SubscriptionPackage
+from django.http import Http404
 from entitlements.models import SubscriptionEntitlement, SubscriptionOrderHistory
 
 # Create your views here.
@@ -76,4 +77,6 @@ class PaymentVerifyView(LoginRequiredMixin, View):
         }
         if order:
             context['order'] = order
+            if order.user != request.user:
+                raise Http404()
         return render(request, self.template_name, context)
