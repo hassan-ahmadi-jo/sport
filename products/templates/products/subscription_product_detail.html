@@ -67,13 +67,13 @@
               <!-- وضعیت -->
               <div class="flex flex-col">
                 <span class="text-xs text-gray-600 dark:text-gray-300 mb-1.5 font-semibold">وضعیت اشتراک شما</span>
-                {% if user_has_active_subscription %}
+                {% if entitlement.is_active %}
                   <span class="flex items-center gap-2 text-sm font-bold text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/40 px-3 py-1 rounded-lg">
                     <span class="relative flex h-2.5 w-2.5">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75"></span>
                       <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
                     </span>
-                    فعال ({{ subscription_days_left }} روز باقی‌مانده)
+                    فعال ({{ entitlement.remain_days }} روز باقی‌مانده)
                   </span>
                 {% else %}
                   <span class="inline-flex items-center gap-1.5 text-sm font-bold text-rose-700 dark:text-rose-400 bg-rose-100 dark:bg-rose-900/40 px-3 py-1 rounded-lg">
