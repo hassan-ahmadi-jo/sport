@@ -170,7 +170,7 @@ THOUSAND_SEPARATOR = ','
 NUMBER_GROUPING = 3
 
 # Login URL
-LOGIN_URL = '/profile/login'
+LOGIN_URL = '/accounts/login/'
 
 # ZARINPAL
 ZARINPAL_MERCHANT_ID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'

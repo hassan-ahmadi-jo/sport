@@ -117,7 +117,7 @@ class UserLoginView(UserPassesTestMixin, LoginView):
             return redirect('verify')
         return super().form_valid(form)
 
-class profileView(UserPassesTestMixin ,TemplateView):
+class ProfileView(UserPassesTestMixin ,TemplateView):
     template_name = 'accounts/profile.html'
 
     def test_func(self):
