@@ -92,6 +92,14 @@
 }
 
 @layer components {
+    /* Profile Sidebar Btn */
+    .profile-sidebar-btn-normal-mode {
+        @apply flex items-center gap-3 mx-1.5 sm:mx-2 px-4 py-3.5 w-full text-right cursor-pointer rounded-2xl transition-all duration-200 text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-gray-100/80 dark:hover:bg-gray-800/50 font-bold;
+    }
+
+    .profile-sidebar-btn-selected-mode {
+        @apply flex items-center gap-3 mx-1.5 sm:mx-2 px-4 py-3.5 w-full text-right rounded-2xl transition-all duration-300 bg-[var(--color-primary)] text-white font-extrabold shadow-lg shadow-[var(--color-primary)]/25 hover:shadow-xl;
+    }
     /* Workout Day Btn */
     .workout-day-btn-selected-mode {
         @apply flex items-center justify-between w-full p-4 rounded-2xl border-r-4 border-[var(--color-primary)] bg-gradient-to-l from-[var(--color-primary)]/15 to-transparent text-right transition-all duration-300 shadow-sm;

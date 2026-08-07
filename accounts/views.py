@@ -118,7 +118,7 @@ class UserLoginView(UserPassesTestMixin, LoginView):
         return super().form_valid(form)
 
 class ProfileView(UserPassesTestMixin ,TemplateView):
-    template_name = 'accounts/profile.html'
+    template_name = 'accounts/profile/base.html'
 
     def test_func(self):
         return self.request.user.is_authenticated

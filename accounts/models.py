@@ -17,6 +17,11 @@ class User(AbstractUser):
     def __str__(self):
         return self.first_name
 
+    @property
+    def display_phone_number(self):
+        phone = '0' + str(self.phone_number)[3:]
+        return f'{phone[:4]} {phone[4:7]} {phone[7:]}'
+
 class OTPChallenge(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='otp', verbose_name='کاربر')
     security_code = models.CharField(max_length=255, verbose_name='هش کد تأیید')
