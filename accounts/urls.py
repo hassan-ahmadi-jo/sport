@@ -14,4 +14,5 @@ urlpatterns = [
 
     # profile
     path('profile/', views.ProfileView.as_view(), name='profile'),
+    path('profile/dashboard/', views.ProfileDashboardView.as_view(), name='profile_dashboard')
 ]

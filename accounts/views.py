@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 from django.views import View
-from django.contrib.auth.mixins import UserPassesTestMixin
+from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from django.contrib.auth import login, logout
 from django.db import transaction
 from django.urls import reverse_lazy
@@ -12,6 +12,7 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta, datetime
 from . import forms, services, models
+import time
 
 # Create your views here.
 
@@ -117,14 +118,9 @@ class UserLoginView(UserPassesTestMixin, LoginView):
             return redirect('verify')
         return super().form_valid(form)
 
-class ProfileView(UserPassesTestMixin ,TemplateView):
+class ProfileView(LoginRequiredMixin ,TemplateView):
     template_name = 'accounts/profile/base.html'
 
-    def test_func(self):
-        return self.request.user.is_authenticated
-    
-    def handle_no_permission(self):
-        return redirect('login')
     
 class ForgotPasswordView(UserPassesTestMixin, View):
     template_name = 'accounts/forgot_password.html'
@@ -253,3 +249,5 @@ class SetNewPasswordView(UserPassesTestMixin, View):
             return redirect('login')
         return render(request, self.template_name, {'form': form})
 
+class ProfileDashboardView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/profile/dashboard.html'

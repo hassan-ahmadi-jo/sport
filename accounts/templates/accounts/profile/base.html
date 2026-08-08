@@ -54,7 +54,7 @@
           <!-- لینک‌های ناوبری (منوها): اسکرول افقی با عرض خودکار در موبایل -->
           <nav class="flex flex-row lg:flex-col lg:gap-2 overflow-x-auto lg:overflow-x-visible py-1 lg:py-0 snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" id="profile-nav">
             <!-- داشبورد (Active) -->
-            <button data-target="dashboard" class="js-profile-sidebar-btn profile-sidebar-btn-selected-mode shrink-0 w-auto lg:w-full snap-align-start inline-flex items-center gap-2 lg:gap-3 px-3.5 sm:px-4 py-2.5 lg:py-3.5 rounded-2xl text-xs lg:text-sm font-extrabold whitespace-nowrap">
+            <button data-url="{% url 'profile_dashboard' %}" class="js-profile-sidebar-btn profile-sidebar-btn-selected-mode shrink-0 w-auto lg:w-full snap-align-start inline-flex items-center gap-2 lg:gap-3 px-3.5 sm:px-4 py-2.5 lg:py-3.5 rounded-2xl text-xs lg:text-sm font-extrabold whitespace-nowrap">
               <svg class="w-4 h-4 lg:w-5 lg:h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
               </svg>
@@ -131,14 +131,7 @@
       <main class="w-full flex-1 min-w-0">
         <div id="profile-content-area" class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-sm min-h-[450px] sm:min-h-[550px] transition-all">
           {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
-          {% include "accounts/profile/dashboard.html" %}
+          
         </div>
       </main>
     </div>
