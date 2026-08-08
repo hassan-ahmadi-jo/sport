@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.views.generic import TemplateView
 from django.contrib.auth.views import LoginView
 from django.views import View
@@ -251,3 +251,12 @@ class SetNewPasswordView(UserPassesTestMixin, View):
 
 class ProfileDashboardView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/profile/dashboard.html'
+
+class ProfileEditView(LoginRequiredMixin, UpdateView):
+    template_name = 'accounts/profile/edit.html'
+    form_class = forms.ProfileEditForm
+    model = models.User
+    success_url = reverse_lazy('profile_edit')
+
+    def get_object(self, queryset = None):
+        return self.request.user

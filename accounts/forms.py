@@ -216,3 +216,38 @@ class SetNewPasswordForm(SetPasswordForm):
                 'required': 'تأیید گذرواژه اجباری است.'
             }
     )
+
+class ProfileEditForm(forms.ModelForm):
+    class Meta:
+        model = models.User
+        fields = ['first_name', 'last_name']
+
+        labels = {
+            'first_name': 'نام',
+            'last_name': 'نام خانوادگی'
+        }
+
+        widgets = {
+            'first_name': forms.TextInput(attrs={
+                'class': 'profile-edit-form-control',
+                'placeholder':  'مثال: سارا'
+            }),
+            'last_name': forms.TextInput(attrs={
+                            'class': 'profile-edit-form-control',
+                            'placeholder':  'مثال: فرهمند'
+                        }),
+            }
+
+        error_messages = {
+            'first_name': {'required': 'نام اجباری است',
+                            'max_length': 'نام نباید بیشتر از 200 کارکتر باشد'},
+            'last_name': {'max_length': 'نام خانوادگی نباید بیشتر از 200 کارکتر باشد'},
+        }
+
+    def clean_first_name(self):
+        name = self.cleaned_data.get('first_name')
+        if len(name) < 3:
+            raise ValidationError('نام نباید کمتر از 3 کاراکتر باشد')
+        return name
+
+    

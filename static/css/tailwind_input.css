@@ -92,6 +92,10 @@
 }
 
 @layer components {
+    /* profile edit form */
+    .profile-edit-form-control{
+        @apply w-full bg-gray-50/60 dark:bg-white/[0.03] border border-gray-200/90 dark:border-gray-800 rounded-2xl pr-12 pl-4 py-3.5 text-sm md:text-base text-[var(--color-text-main)] font-semibold placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/15 focus:border-[var(--color-primary)]/60 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200;
+    }
     /* Profile Sidebar Btn */
     .profile-sidebar-btn-normal-mode {
         @apply flex items-center gap-3 mx-1.5 sm:mx-2 px-4 py-3.5 w-full text-right cursor-pointer rounded-2xl transition-all duration-200 text-[var(--color-text-muted)] hover:text-[var(--color-text-main)] hover:bg-gray-100/80 dark:hover:bg-gray-800/50 font-bold;

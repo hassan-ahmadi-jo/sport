@@ -3,14 +3,13 @@ const profileContentAreaEl = document.getElementById('profile-content-area');
 
 
 const setProfileSidebarBtnClassList = function(btn) {
-    if (btn.className.includes('profile-sidebar-btn-normal-mode')) {
-            const selectedBtn = document.querySelector('.profile-sidebar-btn-selected-mode');
-
-            if (selectedBtn == btn) return;
-            if (selectedBtn) {
-                selectedBtn.classList.replace('profile-sidebar-btn-selected-mode', 'profile-sidebar-btn-normal-mode');
-            }
-        btn.classList.replace('profile-sidebar-btn-normal-mode', 'profile-sidebar-btn-selected-mode')};
+    const activatedBtn = document.querySelector('.profile-sidebar-btn-selected-mode');
+    
+        if (activatedBtn == btn) return;
+        if (activatedBtn) {
+            activatedBtn.classList.replace('profile-sidebar-btn-selected-mode', 'profile-sidebar-btn-normal-mode');
+        }
+        btn.classList.replace('profile-sidebar-btn-normal-mode', 'profile-sidebar-btn-selected-mode');
 };
 
 const getProfileContentData = async function(selected_btn) {
@@ -39,10 +38,48 @@ const getProfileContentData = async function(selected_btn) {
 profileSidebarBtnEls.forEach(btn => {
     btn.addEventListener('click', function (e){
         e.preventDefault();
-
-        setProfileSidebarBtnClassList(btn);
-        getProfileContentData(btn);
+        if (btn.className.includes('profile-sidebar-btn-normal-mode')) {
+            setProfileSidebarBtnClassList(btn);
+            getProfileContentData(btn)};
     });
+});
+
+
+
+profileContentAreaEl.addEventListener('submit', async function(event) {
+    const formEl = event.target.closest('.js-ajax-form');
+
+    if (!formEl) return;
+
+    event.preventDefault();
+
+    const formData = new FormData(formEl);
+    const csrfToken = profileContentAreaEl.querySelector('[name=csrfmiddlewaretoken]').value;
+    const url = formEl.action;
+
+    try {
+        const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+        headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                "X-CSRFToken": csrfToken
+            }
+    });
+
+    const wasSuccessful = response.ok && response.redirected;
+    
+    const html = await response.text();
+    profileContentAreaEl.innerHTML = html;
+
+    if (wasSuccessful) {
+            alert('اطلاعات پروفایل با موفقیت ذخیره شد.');
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert('خطا در ارسال فرم');
+    };
 });
 
 
