@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, SetPasswordForm, PasswordChangeForm
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from . import models, services
@@ -250,4 +250,32 @@ class ProfileEditForm(forms.ModelForm):
             raise ValidationError('نام نباید کمتر از 3 کاراکتر باشد')
         return name
 
-    
+class ProfileChangePasswordForm(PasswordChangeForm):
+    old_password = forms.CharField(
+            label="رمز عبور فعلی",
+            strip=False,
+            widget=forms.PasswordInput(
+                attrs={"autocomplete": "current-password",
+                        "autofocus": True,
+                        'class': 'profile-edit-form-control',
+                        'placeholder':  'رمزعبور فعلی خود را وارد کنید'
+                        }
+            ),
+        )
+
+    new_password1 = forms.CharField(
+            label='رمز عبور جدید',
+            widget=forms.PasswordInput(attrs={
+                "autocomplete": "new-password",
+                'class': 'profile-edit-form-control',
+                'placeholder':  "حداقل ۸ کاراکتر"}),
+            strip=False,
+        )
+    new_password2 = forms.CharField(
+        label='تکرار رمز عبور جدید',
+        strip=False,
+        widget=forms.PasswordInput(attrs={
+            "autocomplete": "new-password",
+            'class': 'profile-edit-form-control',
+            'placeholder':  "رمز جدید را مجدداً وارد کنید"}),
+    )

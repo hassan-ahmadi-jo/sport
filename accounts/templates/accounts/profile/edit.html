@@ -1,3 +1,28 @@
+<!-- بنر اعلان موفقیت (قابل بستن) -->
+<div class="js-form-success hidden animate-[slideDown_0.3s_ease-out] mb-6 p-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/25 items-center justify-between gap-3 text-emerald-900 dark:text-emerald-200">
+  <div class="flex items-center gap-3">
+    <div class="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+      </svg>
+    </div>
+    <div>
+      <h4 class="text-xs sm:text-sm font-black">اطلاعات پروفایل با موفقیت ذخیره شد</h4>
+      <p class="text-[11px] sm:text-xs text-emerald-700 dark:text-emerald-300 font-medium mt-0.5">تغییرات حساب کاربری شما با موفقیت به‌روزرسانی شد.</p>
+    </div>
+  </div>
+
+  <!-- دکمه بستن پیام -->
+  <button type="button" onclick="this.parentElement.remove()" class="p-1.5 rounded-xl hover:bg-emerald-500/20 text-emerald-700 dark:text-emerald-300 transition-colors cursor-pointer" title="بستن">
+    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+    </svg>
+  </button>
+</div>
+
+
+
+
 <!-- محتوای فرم ویرایش پروفایل (جهت بارگذاری با AJAX داخل #profile-content-area) -->
 <div class="animate-[fadeIn_0.25s_ease-in-out]">
 

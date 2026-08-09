@@ -73,7 +73,13 @@ profileContentAreaEl.addEventListener('submit', async function(event) {
     profileContentAreaEl.innerHTML = html;
 
     if (wasSuccessful) {
-            alert('اطلاعات پروفایل با موفقیت ذخیره شد.');
+            const formSuccessEl = profileContentAreaEl.querySelector('.js-form-success');
+            if (formSuccessEl) {
+                formSuccessEl.classList.replace('hidden', 'flex');
+            } else {
+                alert('تغییرات با موفقیت اعمال شد.');
+            }
+            
         }
 
     } catch (error) {
