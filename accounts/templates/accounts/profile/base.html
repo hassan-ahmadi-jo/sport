@@ -131,7 +131,93 @@
       <main class="w-full flex-1 min-w-0">
         <div id="profile-content-area" class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-sm min-h-[450px] sm:min-h-[550px] transition-all">
           {% include "accounts/profile/dashboard.html" %}
-          
+        </div>
+        <div id="profile-loading" class="hidden bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 shadow-sm min-h-[450px] sm:min-h-[550px] transition-all">
+          <!-- تمپلیت بارگذاری چندمنظوره (Universal Skeleton Loader) جهت تزریق به #profile-content-area -->
+          <div class="animate-[fadeIn_0.2s_ease-in-out] space-y-6 sm:space-y-8 select-none pointer-events-none" id="profile-skeleton-loader">
+
+            <!-- ۱. هدر عمومی (Skeleton Header) -->
+            <div class="pb-6 border-b border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div class="flex items-center gap-3.5">
+                <!-- آیکون هدر -->
+                <div class="w-11 h-11 rounded-2xl bg-gray-200/80 dark:bg-gray-800/80 animate-pulse shrink-0"></div>
+                
+                <!-- عنوان و زیرعنوان -->
+                <div class="space-y-2">
+                  <div class="h-5 w-36 sm:w-48 bg-gray-200/80 dark:bg-gray-800/80 rounded-lg animate-pulse"></div>
+                  <div class="h-3.5 w-52 sm:w-72 bg-gray-200/60 dark:bg-gray-800/50 rounded-lg animate-pulse"></div>
+                </div>
+              </div>
+
+              <!-- بج یا آمار سمت چپ هدر -->
+              <div class="h-7 w-28 bg-gray-200/70 dark:bg-gray-800/60 rounded-xl animate-pulse self-start sm:self-auto"></div>
+            </div>
+
+            <!-- ۲. کارتهای خلاصه/آمار یا اکشن‌های بالایی (۳ کارت پیش‌فرض) -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div class="p-4 rounded-2xl bg-gray-50/70 dark:bg-white/[0.02] border border-gray-100 dark:border-gray-800/60 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gray-200/80 dark:bg-gray-800/80 animate-pulse shrink-0"></div>
+                <div class="space-y-1.5 w-full">
+                  <div class="h-3 w-16 bg-gray-200/70 dark:bg-gray-800/60 rounded animate-pulse"></div>
+                  <div class="h-4 w-24 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"></div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-gray-50/70 dark:bg-white/[0.02] border border-gray-100 dark:border-gray-800/60 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gray-200/80 dark:bg-gray-800/80 animate-pulse shrink-0"></div>
+                <div class="space-y-1.5 w-full">
+                  <div class="h-3 w-16 bg-gray-200/70 dark:bg-gray-800/60 rounded animate-pulse"></div>
+                  <div class="h-4 w-24 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"></div>
+                </div>
+              </div>
+
+              <div class="p-4 rounded-2xl bg-gray-50/70 dark:bg-white/[0.02] border border-gray-100 dark:border-gray-800/60 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gray-200/80 dark:bg-gray-800/80 animate-pulse shrink-0"></div>
+                <div class="space-y-1.5 w-full">
+                  <div class="h-3 w-16 bg-gray-200/70 dark:bg-gray-800/60 rounded animate-pulse"></div>
+                  <div class="h-4 w-24 bg-gray-200 dark:bg-gray-800 rounded animate-pulse"></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- ۳. بدنه اصلی محتوا (ترکیب فرم و لیست شبیه‌سازی‌شده) -->
+            <div class="space-y-4 pt-2">
+              
+              <!-- سطر ۱ محتوا -->
+              <div class="p-4 sm:p-5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01] border border-gray-100 dark:border-gray-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="h-4 w-32 bg-gray-200/80 dark:bg-gray-800/80 rounded animate-pulse"></div>
+                  <div class="h-3.5 w-16 bg-gray-200/60 dark:bg-gray-800/50 rounded animate-pulse"></div>
+                </div>
+                <div class="h-10 w-full bg-gray-200/50 dark:bg-gray-800/40 rounded-xl animate-pulse"></div>
+              </div>
+
+              <!-- سطر ۲ محتوا -->
+              <div class="p-4 sm:p-5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01] border border-gray-100 dark:border-gray-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="h-4 w-40 bg-gray-200/80 dark:bg-gray-800/80 rounded animate-pulse"></div>
+                  <div class="h-3.5 w-20 bg-gray-200/60 dark:bg-gray-800/50 rounded animate-pulse"></div>
+                </div>
+                <div class="h-10 w-full bg-gray-200/50 dark:bg-gray-800/40 rounded-xl animate-pulse"></div>
+              </div>
+
+              <!-- سطر ۳ محتوا -->
+              <div class="p-4 sm:p-5 rounded-2xl bg-gray-50/50 dark:bg-white/[0.01] border border-gray-100 dark:border-gray-800/60 space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="h-4 w-28 bg-gray-200/80 dark:bg-gray-800/80 rounded animate-pulse"></div>
+                  <div class="h-3.5 w-24 bg-gray-200/60 dark:bg-gray-800/50 rounded animate-pulse"></div>
+                </div>
+                <div class="h-10 w-full bg-gray-200/50 dark:bg-gray-800/40 rounded-xl animate-pulse"></div>
+              </div>
+
+            </div>
+
+            <!-- ۴. دکمه/فوتر پایینی -->
+            <div class="pt-4 border-t border-gray-100 dark:border-gray-800/80 flex justify-end gap-3">
+              <div class="h-11 w-32 bg-[var(--color-primary)]/20 dark:bg-[var(--color-primary)]/20 rounded-xl animate-pulse"></div>
+            </div>
+
+          </div>
         </div>
       </main>
     </div>

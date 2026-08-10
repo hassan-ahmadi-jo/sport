@@ -1,5 +1,6 @@
 const profileSidebarBtnEls = document.querySelectorAll('.js-profile-sidebar-btn');
 const profileContentAreaEl = document.getElementById('profile-content-area');
+const profileLodingEl = document.getElementById('profile-loading');
 
 
 const setProfileSidebarBtnClassList = function (btn) {
@@ -15,7 +16,8 @@ const setProfileSidebarBtnClassList = function (btn) {
 const getProfileContentData = async function (selected_btn) {
     const url = selected_btn.dataset.url;
 
-    profileContentAreaEl.style.opacity = '0.5';
+    profileContentAreaEl.classList.add('hidden');
+    profileLodingEl.classList.remove('hidden')
     try {
         const response = await fetch(url);
         if (!response.ok) throw new Error('Network response was not ok');
@@ -30,7 +32,8 @@ const getProfileContentData = async function (selected_btn) {
         console.error('Fetch error:', error);
         profileContentAreaEl.innerHTML = '<p class="text-rose-500 p-4 text-center">خطا در بارگذاری اطلاعات. دوباره تلاش کنید.</p>';
     } finally {
-        profileContentAreaEl.style.opacity = '1';
+        profileContentAreaEl.classList.remove('hidden');
+        profileLodingEl.classList.add('hidden')
     }
 };
 
