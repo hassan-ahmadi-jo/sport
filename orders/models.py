@@ -2,6 +2,8 @@ from django.db import models, transaction, IntegrityError
 from django.core.exceptions import ValidationError
 from accounts.models import User
 from products.models import SubscriptionPackage
+from django.utils import timezone
+from datetime import timedelta
 import string
 import secrets
 # Create your models here.
@@ -117,6 +119,14 @@ class Order(models.Model):
 
     authority = models.CharField(db_index=True, max_length=255, blank=True, null=True, verbose_name='authority درگاه')
     ref_id = models.CharField(max_length=255, blank=True, null=True, verbose_name='ref id درگاه')
+
+    @property
+    def effective_status(self):
+        if (self.status == self.STATUS_PENDING and self.created_at and timezone.now() > self.created_at + timedelta(minutes=15)):
+            return self.STATUS_FAILED
+        return self.status
+                
+
 
     def save(self, *args, **kwargs):
         if self.tracking_code:

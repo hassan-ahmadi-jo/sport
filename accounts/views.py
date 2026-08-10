@@ -265,3 +265,21 @@ class ProfileChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     template_name = 'accounts/profile/change_password.html'
     form_class = forms.ProfileChangePasswordForm
     success_url = reverse_lazy('profile_change_password')
+
+class ProfileCartView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/profile/cart.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cart'] = getattr(self.request.user, 'cart', None)
+        return context
+
+class ProfileOrdersView(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/profile/orders.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        orders = getattr(self.request.user, 'orders', None)
+        if orders:
+            context['orders'] = orders.prefetch_related('subscription_items').order_by('-created_at')
+        return context

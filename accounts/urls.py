@@ -17,4 +17,6 @@ urlpatterns = [
     path('profile/dashboard/', views.ProfileDashboardView.as_view(), name='profile_dashboard'),
     path('profile/edit/', views.ProfileEditView.as_view(), name='profile_edit'),
     path('profile/password/change/', views.ProfileChangePasswordView.as_view(), name='profile_change_password'),
+    path('profile/cart/', views.ProfileCartView.as_view(), name='profile_cart'),
+    path('profile/orders/', views.ProfileOrdersView.as_view(), name='profile_orders'),
 ]

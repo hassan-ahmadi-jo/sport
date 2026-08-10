@@ -1,0 +1,242 @@
+{% load humanize %}
+
+<!-- محتوای لیست فاکتورها و سفارشات (جهت بارگذاری با AJAX داخل #profile-content-area) -->
+<div class="animate-[fadeIn_0.25s_ease-in-out]">
+
+  <!-- هدر بخش (Header) -->
+  <div class="mb-8 pb-6 border-b border-gray-100 dark:border-gray-800/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+    <div class="flex items-center gap-3.5">
+      <div class="w-11 h-11 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center shrink-0 ring-4 ring-[var(--color-primary)]/5">
+        <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+        </svg>
+      </div>
+      <div>
+        <h2 class="text-lg sm:text-xl font-black text-[var(--color-text-main)] tracking-tight">سوابق سفارش‌ها و فاکتورها</h2>
+        <p class="text-xs sm:text-sm mt-0.5 text-[var(--color-text-muted)] font-medium">مشاهده، پیگیری و جزییات دقیق تمامی تراکنش‌های مالی شما</p>
+      </div>
+    </div>
+
+    <!-- آمار کل سفارش‌ها -->
+    <div class="self-start sm:self-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-gray-100/80 dark:bg-gray-800/60 text-[var(--color-text-main)] text-xs font-extrabold">
+      <span class="w-2 h-2 rounded-full bg-[var(--color-primary)]"></span>
+      <span>{{ orders.count|default:"0" }} فاکتور ثبت‌شده</span>
+    </div>
+  </div>
+
+  {% if orders %}
+    <!-- لیست فاکتورها -->
+    <div class="space-y-4" id="invoices-accordion-container">
+      {% for order in orders %}
+        
+        <!-- کارت فاکتور (هر سفارش) -->
+        <div class="js-invoice-card group rounded-2xl sm:rounded-3xl bg-gray-50/50 dark:bg-white/[0.02] border border-gray-200/80 dark:border-gray-800/80 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-300 overflow-hidden">
+          
+          <!-- نوار بالای کارت (هدر فاکتور - قابل کلیک جهت باز/بسته شدن) -->
+          <div class="js-invoice-toggle p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer select-none">
+            
+            <!-- سمت راست: وضعیت + کد پیگیری + تاریخ -->
+            <div class="flex items-center gap-3.5">
+              
+              <!-- نشان وضعیت (Status Badge) بر اساس effective_status -->
+              {% if order.effective_status == 'paid' %}
+                <div class="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20" title="پرداخت شده">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                  </svg>
+                </div>
+              {% elif order.effective_status == 'pending' %}
+                <div class="w-10 h-10 rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-500/20" title="در انتظار پرداخت">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                  </svg>
+                </div>
+              {% else %}
+                <div class="w-10 h-10 rounded-2xl bg-rose-500/10 text-rose-600 dark:text-rose-400 flex items-center justify-center shrink-0 border border-rose-500/20" title="پرداخت ناموفق">
+                  <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                  </svg>
+                </div>
+              {% endif %}
+
+              <div class="space-y-1">
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span dir="ltr" class="text-xs font-black text-[var(--color-text-main)] font-mono">
+                    #{{ order.tracking_code|default:order.id }}
+                  </span>
+                  
+                  <!-- متن برچسب وضعیت -->
+                  {% if order.effective_status == 'paid' %}
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20">
+                      پرداخت شده
+                    </span>
+                  {% elif order.effective_status == 'pending' %}
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20">
+                      در انتظار پرداخت
+                    </span>
+                  {% else %}
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-lg text-[10px] font-extrabold bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20">
+                      پرداخت ناموفق
+                    </span>
+                  {% endif %}
+                </div>
+
+                <p class="text-[11px] font-medium text-[var(--color-text-muted)] flex items-center gap-1">
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  </svg>
+                  <span dir="ltr">{{ order.created_at|date:"Y/m/d - H:i" }}</span>
+                </p>
+              </div>
+
+            </div>
+
+            <!-- سمت چپ: مبلغ کل + فلش آکاردئون -->
+            <div class="flex items-center justify-between sm:justify-end gap-4 pt-2 sm:pt-0 border-t sm:border-t-0 border-gray-200/50 dark:border-gray-800/50">
+              <div class="text-right sm:text-left">
+                <span class="text-xs font-semibold text-[var(--color-text-muted)] block sm:inline">مبلغ کل: </span>
+                <span class="text-base sm:text-lg font-black text-[var(--color-text-main)]">
+                  {{ order.total_price|intcomma }} <span class="text-xs font-bold text-[var(--color-text-muted)]">تومان</span>
+                </span>
+              </div>
+
+              <!-- آیکون فلش با انیمیشن چرخش -->
+              <div class="js-invoice-arrow w-8 h-8 rounded-xl bg-gray-200/50 dark:bg-gray-800/60 text-[var(--color-text-muted)] flex items-center justify-center shrink-0 transition-transform duration-300">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- بدنه جزییات فاکتور (انیمیشن نرم باز و بسته شدن با CSS Grid) -->
+          <div class="js-invoice-body grid grid-rows-[0fr] transition-all duration-300 ease-in-out border-t border-transparent">
+            <div class="overflow-hidden">
+              <div class="p-4 sm:p-6 space-y-6 bg-white/50 dark:bg-black/10 border-t border-gray-100 dark:border-gray-800/80">
+                
+                <!-- ۱. لیست آیتم‌های خریده‌شده در این فاکتور -->
+                <div class="space-y-3">
+                  <h4 class="text-xs font-extrabold text-[var(--color-text-muted)] uppercase tracking-wider flex items-center gap-2">
+                    <svg class="w-4 h-4 text-[var(--color-primary)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                    </svg>
+                    <span>اقلام خریداری‌شده</span>
+                  </h4>
+
+                  <div class="space-y-2">
+                    {% for item in order.subscription_items.all %}
+                      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3.5 rounded-2xl bg-gray-50/80 dark:bg-gray-800/40 border border-gray-200/60 dark:border-gray-800/60 text-xs">
+                        
+                        <div class="flex items-center gap-3">
+                          <div class="w-2 h-2 rounded-full bg-[var(--color-primary)]"></div>
+                          <div>
+                            <span class="font-extrabold text-[var(--color-text-main)]">{{ item.package_title }}</span>
+                            <span class="text-[var(--color-text-muted)] font-medium mr-1.5">({{ item.product_title }})</span>
+                          </div>
+                        </div>
+
+                        <div class="flex items-center justify-between sm:justify-end gap-4">
+                          <!-- وضعیت فعال‌سازی اشتراک -->
+                          {% if item.subscriptions_activated %}
+                            <span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/15">
+                              <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                              اشتراک فعال
+                            </span>
+                          {% else %}
+                            <span class="inline-flex items-center gap-1 text-[10px] font-extrabold text-gray-500 bg-gray-200/50 dark:bg-gray-700/50 px-2 py-0.5 rounded-lg">
+                              غیرفعال
+                            </span>
+                          {% endif %}
+
+                          <!-- قیمت آیتم -->
+                          <span class="font-black text-[var(--color-text-main)]">
+                            {{ item.price|intcomma }} <span class="text-[10px] font-normal text-[var(--color-text-muted)]">تومان</span>
+                          </span>
+                        </div>
+
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+                <!-- ۲. اطلاعات بانک و تراکنش درگاه -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 text-xs">
+                  
+                  <div class="p-3.5 rounded-2xl bg-gray-50/60 dark:bg-gray-800/30 border border-gray-200/60 dark:border-gray-800/60 space-y-1">
+                    <span class="text-[var(--color-text-muted)] font-medium block">کد پیگیری داخلی:</span>
+                    <span dir="ltr" class="font-bold font-mono text-[var(--color-text-main)]">{{ order.tracking_code|default:"--" }}</span>
+                  </div>
+
+                  <div class="p-3.5 rounded-2xl bg-gray-50/60 dark:bg-gray-800/30 border border-gray-200/60 dark:border-gray-800/60 space-y-1">
+                    <span class="text-[var(--color-text-muted)] font-medium block">شماره ارجاع درگاه (Ref ID):</span>
+                    <span dir="ltr" class="font-bold font-mono text-[var(--color-text-main)]">{{ order.ref_id|default:"ثبت‌نشده" }}</span>
+                  </div>
+
+                  <div class="p-3.5 rounded-2xl bg-gray-50/60 dark:bg-gray-800/30 border border-gray-200/60 dark:border-gray-800/60 space-y-1 sm:col-span-2 md:col-span-1">
+                    <span class="text-[var(--color-text-muted)] font-medium block">شناسه درگاه (Authority):</span>
+                    <span dir="ltr" class="font-bold font-mono text-[var(--color-text-main)] truncate block" title="{{ order.authority }}">
+                      {{ order.authority|default:"--" }}
+                    </span>
+                  </div>
+
+                </div>
+
+                <!-- ۳. ریز محاسبات فاکتور (خلاصه مالی) -->
+                <div class="p-4 rounded-2xl bg-gray-100/70 dark:bg-gray-800/50 space-y-2 text-xs">
+                  <div class="flex justify-between items-center text-[var(--color-text-muted)] font-medium">
+                    <span>مبلغ بدون مالیات:</span>
+                    <span class="font-bold text-[var(--color-text-main)]">{{ order.no_tax_amount|intcomma }} تومان</span>
+                  </div>
+                  
+                  <div class="flex justify-between items-center text-[var(--color-text-muted)] font-medium">
+                    <span>مالیات بر ارزش افزوده:</span>
+                    <span class="font-bold text-[var(--color-text-main)]">{{ order.tax_amount|intcomma }} تومان</span>
+                  </div>
+
+                  <div class="pt-2 border-t border-gray-200 dark:border-gray-700 flex justify-between items-center text-sm font-extrabold">
+                    <span class="text-[var(--color-text-main)]">مبلغ نهایی پرداختی:</span>
+                    <span class="text-[var(--color-primary)] font-black text-base">{{ order.total_price|intcomma }} تومان</span>
+                  </div>
+                </div>
+
+                <!-- اکشن‌ها (در صورت معلق بودن فاکتور) -->
+                {% if order.effective_status == 'pending' %}
+                  <div class="pt-2 flex justify-end">
+                    <a href="{% url 'payment' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-extrabold text-white bg-amber-500 hover:bg-amber-600 shadow-md shadow-amber-500/20 transition-all">
+                      <span>تکمیل روند پرداخت</span>
+                      <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+                      </svg>
+                    </a>
+                  </div>
+                {% endif %}
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      {% endfor %}
+    </div>
+
+  {% else %}
+    <!-- حالت نبود فاکتور (Empty State) -->
+    <div class="py-16 px-4 text-center space-y-4">
+      <div class="w-16 h-16 mx-auto rounded-3xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 14l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </div>
+
+      <div class="space-y-1">
+        <h3 class="text-base sm:text-lg font-black text-[var(--color-text-main)]">هنوز فاکتوری ثبت نشده است</h3>
+        <p class="text-xs sm:text-sm text-[var(--color-text-muted)] max-w-sm mx-auto font-medium">
+          سوابق تمام پرداخت‌ها و فاکتورهای شما پس از اولین خرید در این بخش قرار می‌گیرد.
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+</div>
