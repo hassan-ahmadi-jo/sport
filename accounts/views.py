@@ -12,6 +12,9 @@ from django.conf import settings
 from django.utils import timezone
 from datetime import timedelta, datetime
 from . import forms, services, models
+from django.utils import timezone
+from datetime import timedelta
+from entitlements.models import SubscriptionEntitlement
 import time
 
 # Create your views here.
@@ -282,4 +285,24 @@ class ProfileOrdersView(LoginRequiredMixin, TemplateView):
         orders = getattr(self.request.user, 'orders', None)
         if orders:
             context['orders'] = orders.prefetch_related('subscription_items').order_by('-created_at')
+        return context
+
+class ProfileCourses(LoginRequiredMixin, TemplateView):
+    template_name = 'accounts/profile/courses.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.request.user
+        course = []
+        entitlements = (SubscriptionEntitlement.objects
+                        .prefetch_related('product__courses')
+                        .select_related('user', 'product').filter(user=user))
+        for entitlement in entitlements:
+            product = entitlement.product
+            if product.is_active:
+                for subscription_course in product.courses.all():
+                    subscription_course.remain_days = entitlement.remain_days
+                    subscription_course.is_active = entitlement.is_active
+                    course.append(subscription_course)
+        context['courses'] = course
         return context

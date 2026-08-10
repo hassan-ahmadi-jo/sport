@@ -2,6 +2,8 @@ from django.db import models
 from django.db.models import Max
 from products.models import SubscriptionProduct
 from sports.utils.slug import unique_slug_generator
+from django.utils import timezone
+from datetime import timedelta
 
 # Create your models here.
 
@@ -20,6 +22,11 @@ class WorkoutCourse(models.Model):
     number = models.IntegerField(unique=True, default=get_next_course_number, verbose_name='شماره دوره')
     start_date = models.DateField(verbose_name='تاریخ شروع تمرینات')
     duration_days = models.PositiveIntegerField(default=7, verbose_name='تعداد روزهای دوره')
+
+    @property
+    def next_update_days(self):
+        days_passed = (timezone.localdate() - self.start_date).days
+        return self.duration_days - (days_passed % self.duration_days)
     
     class Meta:
         verbose_name = "دوره تمرینی"

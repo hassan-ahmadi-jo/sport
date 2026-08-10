@@ -19,4 +19,5 @@ urlpatterns = [
     path('profile/password/change/', views.ProfileChangePasswordView.as_view(), name='profile_change_password'),
     path('profile/cart/', views.ProfileCartView.as_view(), name='profile_cart'),
     path('profile/orders/', views.ProfileOrdersView.as_view(), name='profile_orders'),
+    path('profile/courses/', views.ProfileCourses.as_view(), name='profile_courses'),
 ]
