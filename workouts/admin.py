@@ -19,3 +19,9 @@ class DailyWorkoutAdmin(admin.ModelAdmin):
     search_fields = ['plan__number', 'title']
     
     ordering = ['plan__number', 'day_number']
+
+@admin.register(models.ActiveWorkoutCourseConfig)
+class ActiveWorkoutCourseConfigAdmin(admin.ModelAdmin):
+    list_display = ['subscription_product', 'current_course']
+    list_filter = ['subscription_product', 'current_course']
+    search_fields = ['subscription_product']

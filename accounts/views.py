@@ -287,7 +287,7 @@ class ProfileOrdersView(LoginRequiredMixin, TemplateView):
             context['orders'] = orders.prefetch_related('subscription_items').order_by('-created_at')
         return context
 
-class ProfileCourses(LoginRequiredMixin, TemplateView):
+class ProfileCoursesView(LoginRequiredMixin, TemplateView):
     template_name = 'accounts/profile/courses.html'
 
     def get_context_data(self, **kwargs):
@@ -295,14 +295,15 @@ class ProfileCourses(LoginRequiredMixin, TemplateView):
         user = self.request.user
         course = []
         entitlements = (SubscriptionEntitlement.objects
-                        .prefetch_related('product__courses')
-                        .select_related('user', 'product').filter(user=user))
+                        .select_related('product', 'product__active_course_config__current_course').filter(user=user))
         for entitlement in entitlements:
             product = entitlement.product
             if product.is_active:
-                for subscription_course in product.courses.all():
-                    subscription_course.remain_days = entitlement.remain_days
-                    subscription_course.is_active = entitlement.is_active
-                    course.append(subscription_course)
+                config = getattr(product, 'active_course_config', None)
+                if config and config.current_course:
+                    course_obj = config.current_course
+                    course_obj.remain_days = entitlement.remain_days
+                    course_obj.is_active = entitlement.is_active
+                    course.append(course_obj)
         context['courses'] = course
         return context

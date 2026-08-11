@@ -13,14 +13,16 @@ class WorkoutCourseView(DetailView):
     slug_url_kwarg = 'slug'
 
     def get_queryset(self):
-        queryset = super().get_queryset()
-        return queryset.select_related('subscription_product')
+        queryset = (super().get_queryset()
+                    .select_related('subscription_product')
+                    .filter(subscription_product__is_active=True, active_for_products__isnull=False))
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_id = self.request.user.id
+        user = self.request.user
         course = self.get_object()
-        entitlement = SubscriptionEntitlement.objects.select_related('user', 'product').filter(user__id=user_id, product=course.subscription_product).first()
+        entitlement = SubscriptionEntitlement.objects.select_related('user', 'product').filter(user=user, product=course.subscription_product).first()
         context['entitlement'] = entitlement
         return context
 

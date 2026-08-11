@@ -3,7 +3,7 @@ from django.db.models import Max
 from products.models import SubscriptionProduct
 from sports.utils.slug import unique_slug_generator
 from django.utils import timezone
-from datetime import timedelta
+from django.core.exceptions import ValidationError
 
 # Create your models here.
 
@@ -57,3 +57,27 @@ class DailyWorkout(models.Model):
 
     def __str__(self):
         return f"{self.plan.number}) {self.plan.title} - روز {self.day_number}: {self.title}"
+
+class ActiveWorkoutCourseConfig(models.Model):
+    subscription_product = models.OneToOneField(SubscriptionProduct, on_delete=models.PROTECT, related_name='active_course_config', verbose_name='محصول اشتراکی مرجع')
+    current_course = models.OneToOneField(WorkoutCourse, blank=True, null=True, on_delete=models.PROTECT, related_name='active_for_products', verbose_name='دوره تمرینی فعال')
+
+    def clean(self):
+        super().clean()
+        if self.current_course and self.current_course.subscription_product_id != self.subscription_product_id:
+            raise ValidationError({
+                'current_course': 'دوره انتخاب‌شده باید متعلق به همین محصول اشتراکی باشد.'
+            })
+
+    def save(self, *args, **kwargs):
+        self.full_clean()
+        return super().save(*args, **kwargs)
+    
+    class Meta:
+        verbose_name = 'پیکربندی دوره محصول'
+        verbose_name_plural = 'پیکربندی دوره محصولات'
+
+    def __str__(self):
+        if self.current_course:
+            return f'{self.subscription_product.title} - {self.current_course.title}'
+        return self.subscription_product.title
