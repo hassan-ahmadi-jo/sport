@@ -1,6 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render
 from django.http import Http404
-from django.views.generic import TemplateView, DetailView
+from django.views.generic import DetailView, ListView
 from . import models
 from entitlements.models import SubscriptionEntitlement
 
@@ -26,4 +26,35 @@ class SubscriptionProductDetailView(DetailView):
             context['course'] = config_obj.current_course
         else:
             raise Http404
+        return context
+
+class ProductsView(ListView):
+    template_name = 'products/products.html'
+    model = models.SubscriptionProduct
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        qs = (super().get_queryset()
+            .prefetch_related('packages')
+            .select_related('active_course_config', 'active_course_config__current_course')
+            .filter(
+            is_active = True,
+            active_course_config__isnull = False,
+            active_course_config__current_course__isnull = False
+        ))
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = context['products']
+        for product in products:
+            packages = product.packages.filter(is_active = True)
+            product.active_packages_count = packages.count()
+            product.min_price = packages.order_by('price').first().price
+            config = getattr(product, 'active_course_config', None)
+            if config and config.current_course:
+                course = config.current_course
+                product.next_update_days = course.next_update_days
+                product.course_slug = course.slug
+                print(course.slug)
         return context
