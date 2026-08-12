@@ -21,9 +21,10 @@ class WorkoutCourseView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
-        course = self.object
-        entitlement = SubscriptionEntitlement.objects.select_related('user', 'product').filter(user=user, product=course.subscription_product).first()
-        context['entitlement'] = entitlement
+        if user.is_authenticated:
+            course = self.object
+            entitlement = SubscriptionEntitlement.objects.filter(user=user, product=course.subscription_product).first()
+            context['entitlement'] = entitlement
         return context
 
 class WorkoutDayDetailView(View):
