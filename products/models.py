@@ -10,7 +10,7 @@ class SubscriptionProduct(models.Model):
     title = models.CharField(max_length=200, unique=True, verbose_name='عنوان')
     slug = models.SlugField(max_length=200, unique=True, allow_unicode=True, verbose_name='عنوان در آدرس')
     description = models.TextField(blank=True, null=True, verbose_name='توضیحات')
-    image = models.ImageField(blank=True, null=True, upload_to='images/subscription_products', verbose_name='تصویر')
+    image = models.ImageField(blank=True, null=True, upload_to='images/subscription_products', verbose_name='تصویر (عرض دو برابر ارتفاع)')
     is_active = models.BooleanField(default=False, verbose_name='فعال است؟')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
 
