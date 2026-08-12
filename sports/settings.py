@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'phonenumber_field',
     'django.contrib.humanize',
+    'imagekit',
     'accounts',
     'workouts',
     'products',
@@ -176,5 +177,8 @@ LOGIN_URL = '/accounts/login/'
 ZARINPAL_MERCHANT_ID = 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
 ZARINPAL_ACCESS_TOKEN = ''
 ZARINPAL_SANDBOX = True
+
+# IMAGEKIT
+IMAGEKIT_DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 

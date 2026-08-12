@@ -32,7 +32,17 @@
               <!-- تصویر محصول (ارتفاع کم و متناسب در موبایل) -->
               <div class="relative w-full overflow-hidden bg-gray-950 shrink-0 aspect-[16/8]">
                 {% if product.image %}
-                  <img src="{{ product.image.url }}" alt="{{ product.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out opacity-90" />
+                  <img
+                  src="{{ product.img_2_1_sm.url }}"
+                  srcset="
+                  {{ product.img_2_1_sm.url }} 320w,
+                  {{ product.img_2_1_md.url }} 480w,
+                "
+                  sizes="(min-width: 1024px) 280px, (min-width: 640px) 200px, 140px"
+                  alt="{{ product.title }}"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out opacity-90"
+                  loading="lazy"
+                  />
                 {% else %}
                   <div class="w-full h-full bg-gradient-to-br from-gray-800 via-gray-900 to-black flex items-center justify-center p-4 text-center">
                     <span class="text-xs sm:text-base font-black text-white/30 tracking-widest uppercase">{{ product.title }}</span>

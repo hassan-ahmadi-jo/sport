@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.text import slugify
 from sports.utils.slug import unique_slug_generator
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
 
 # Create your models here.
 
@@ -13,6 +15,28 @@ class SubscriptionProduct(models.Model):
     image = models.ImageField(blank=True, null=True, upload_to='images/subscription_products', verbose_name='تصویر (عرض دو برابر ارتفاع)')
     is_active = models.BooleanField(default=False, verbose_name='فعال است؟')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='تاریخ ایجاد')
+
+    # 1:2
+    img_2_1_sm = ImageSpecField(
+        source="image",
+        processors=[ResizeToFill(320, 160)],
+        format="WEBP",
+        options={"quality": 80}
+        )
+
+    img_2_1_md = ImageSpecField(
+            source="image",
+            processors=[ResizeToFill(480, 240)],
+            format="WEBP",
+            options={"quality": 78}
+            )
+
+    img_2_1_lg = ImageSpecField(
+            source="image",
+            processors=[ResizeToFill(896, 448)],
+            format="WEBP",
+            options={"quality": 78}
+            )
 
     def save(self, *args, **kwargs):
         if not self.slug:
