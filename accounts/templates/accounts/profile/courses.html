@@ -2,7 +2,7 @@
 
 <div class="animate-[fadeIn_0.25s_ease-in-out]">
   <!-- هدر ساده و شیک (Header) -->
-  <div class="mb-6 sm:mb-8 pb-5 border-b border-gray-100 dark:border-gray-800/80 flex items-center justify-between gap-4">
+  <div class="mb-6 sm:mb-8 pb-5 border-b border-gray-100 dark:border-gray-800/80 flex flex-col-reverse min-[400px]:flex-row items-start justify-between gap-4">
     <div class="flex items-center gap-3.5">
       <div class="w-11 h-11 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] flex items-center justify-center shrink-0 ring-4 ring-[var(--color-primary)]/5">
         <svg class="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -17,7 +17,7 @@
     </div>
 
     <!-- نشان تعداد کل دوره‌ها -->
-    <div class="px-3.5 py-1.5 rounded-xl bg-gray-100 dark:bg-gray-800 text-[var(--color-text-muted)] text-xs font-extrabold shrink-0">{{ courses|length }} دوره</div>
+    <div class="px-3.5 py-1.5 mr-auto min-[400px]:mr-0 rounded-xl bg-gray-100 dark:bg-gray-800 text-[var(--color-text-muted)] text-xs font-extrabold shrink-0">{{ courses|length }} دوره</div>
   </div>
 
   {% if courses %}
@@ -28,7 +28,7 @@
         <div class="group rounded-3xl bg-gray-50/60 dark:bg-white/[0.02] border border-gray-200/80 dark:border-gray-800/80 hover:border-[var(--color-primary)]/40 transition-all duration-300 overflow-hidden flex flex-col justify-between shadow-sm hover:shadow-xl hover:shadow-[var(--color-primary)]/5">
           <div>
             <!-- کاور دوره (گرفته شده از مدل عکس محصول اشتراکی) -->
-            <div class="relative h-48 sm:h-56 w-full overflow-hidden bg-gray-900">
+            <div class="relative aspect-[16/7] w-full overflow-hidden bg-gray-900">
               {% if course_item.subscription_product.image %}
                 <img src="{{ course_item.subscription_product.image.url }}" alt="{{ course_item.title }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out opacity-90" />
               {% else %}
@@ -82,7 +82,7 @@
               {% endif %}
 
               <!-- اطلاعات زمان‌بندی و مشخصات دوره (Grid مشخصات) -->
-              <div class="grid grid-cols-2 gap-2.5 p-3 rounded-2xl bg-white/80 dark:bg-gray-900/60 border border-gray-200/60 dark:border-gray-800/60 backdrop-blur-sm">
+              <div class="grid grid-cols-1 min-[400px]:grid-cols-2 gap-2.5 p-3 rounded-2xl bg-white/80 dark:bg-gray-900/60 border border-gray-200/60 dark:border-gray-800/60 backdrop-blur-sm">
                 <!-- تعداد تمرین‌های روزانه -->
                 <div class="flex items-center gap-2.5 min-w-0">
                   <!-- آیکون انرژی/صاعقه -->
