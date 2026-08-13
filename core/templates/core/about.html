@@ -1,0 +1,254 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+درباره ما
+{% endblock %}
+
+{% block body %}
+  <div class="container mx-auto px-4 py-8 max-w-6xl font-sans" dir="rtl">
+    <!-- ==================== بخش هیرو (معرفی اصلی) ==================== -->
+    <div class="relative bg-gradient-to-br from-[var(--color-bg-surface)] via-[var(--color-bg-surface)] to-[var(--color-primary)]/10 border border-[var(--color-primary)]/15 rounded-3xl p-8 md:p-14 mb-12 shadow-xl shadow-[var(--color-primary)]/5 overflow-hidden backdrop-blur-xl text-center">
+      <!-- افکت‌های نوری پس‌زمینه -->
+      <div class="absolute -top-24 -right-24 w-96 h-96 bg-[var(--color-primary)]/10 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+      <div class="absolute -bottom-24 -left-24 w-80 h-80 bg-[var(--color-primary)]/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+
+      <span class="inline-flex items-center gap-2 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 text-[var(--color-primary)] px-4 py-1.5 rounded-full text-xs md:text-sm font-extrabold mb-4 shadow-sm">
+        <span class="w-2 h-2 rounded-full bg-[var(--color-primary)] animate-pulse"></span>
+        به {{ site.name }} خوش آمدید
+      </span>
+
+      <h1 class="text-3xl md:text-5xl font-black text-[var(--color-text-main)] mb-4 tracking-tight leading-tight">درباره {{ site.name }}</h1>
+
+      <p class="text-lg md:text-2xl font-bold text-[var(--color-primary)] max-w-2xl mx-auto leading-relaxed">جایی برای تمرین بهتر، هدفمندتر و اصولی‌تر</p>
+    </div>
+
+    <!-- ==================== بخش داستان و ماموریت سایت ==================== -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-16">
+      <!-- متن اصلی توضیحات -->
+      <div class="lg:col-span-2 bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-3xl p-6 md:p-8 shadow-sm flex flex-col justify-between">
+        <div class="space-y-4 text-[var(--color-text-muted)] text-justify text-sm md:text-base leading-loose font-normal">
+          <p>
+            <strong class="text-[var(--color-text-main)] font-bold">{{ site.name }}</strong> با هدف فراهم کردن دسترسی آسان به تمرینات ورزشی اصولی، هدفمند و برنامه‌ریزی‌شده شکل گرفته است؛ برای افرادی که می‌خواهند در خانه یا هر محیط دیگری، با امکاناتی ساده، بدنی سالم‌تر، قوی‌تر و آماده‌تر داشته باشند.
+          </p>
+          <p>تمرکز فعلی ما ارائه‌ی دوره‌های آموزشی است؛ دوره‌هایی که در کنار توجه به اصول صحیح تمرین، قابل اجرا، کاربردی و متناسب با شرایط زندگی روزمره‌اند. بخش مهمی از این تمرینات با تکیه بر کش‌های مقاومتی طراحی شده‌اند، بدون نیاز به تجهیزات پیچیده یا باشگاه؛ یعنی در هر زمان و مکانی، با کمترین هزینه، امکان تقویت اصولی و ایمن عضلات بدن فراهم است. در ادامه‌ی مسیر، محصولات ورزشی مرتبط هم به مجموعه‌ی {{ site.name }} اضافه خواهند شد.</p>
+          <p>در {{ site.name }} تلاش می‌کنیم تمرین کردن تنها مجموعه‌ای از حرکات پراکنده نباشد؛ هر دوره ساختار، هدف و مسیر مشخصی دارد تا بتوانید منظم‌تر پیش بروید و پیشرفت خود را به‌روشنی ببینید.</p>
+        </div>
+      </div>
+
+      <!-- کارت‌های ویژگی کلیدی -->
+      <div class="space-y-4 flex flex-col justify-center">
+        <!-- ویژگی ۱ -->
+        <div class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 p-5 rounded-2xl shadow-sm flex items-start gap-4">
+          <div class="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-[var(--color-text-main)] text-sm mb-1">تمرین در خانه و هر مکان</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">بدون نیاز به تجهیزات پیچیده باشگاهی و تنها با کش‌های مقاومتی.</p>
+          </div>
+        </div>
+
+        <!-- ویژگی ۲ -->
+        <div class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 p-5 rounded-2xl shadow-sm flex items-start gap-4">
+          <div class="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-[var(--color-text-main)] text-sm mb-1">تمرکز بر عملکرد و ایمنی</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">رعایت اجرای صحیح حرکات و پیشگیری از آسیب‌دیدگی ورزشی.</p>
+          </div>
+        </div>
+
+        <!-- ویژگی ۳ -->
+        <div class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 p-5 rounded-2xl shadow-sm flex items-start gap-4">
+          <div class="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl shrink-0">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+          <div>
+            <h3 class="font-bold text-[var(--color-text-main)] text-sm mb-1">مسیر مشخص پیشرفت</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">دوره‌های دارای ساختار و هدف منسجم برای مشاهده رشد ملموس.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== بخش درباره امین هاشمی (مربی) ==================== -->
+    <div class="relative bg-gradient-to-b from-[var(--color-bg-surface)] to-gray-50/50 dark:to-gray-900/40 border border-gray-200/80 dark:border-gray-800 rounded-3xl p-6 md:p-10 mb-16 shadow-lg overflow-hidden">
+      <!-- افکت بک‌گراند -->
+      <div class="absolute top-0 left-0 w-64 h-64 bg-[var(--color-primary)]/5 rounded-full blur-3xl -z-10"></div>
+
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <!-- آواتار / مدال پروفایل مربی -->
+        <div class="w-full lg:w-1/3 shrink-0 flex flex-col items-center text-center bg-white/80 dark:bg-gray-800/80 backdrop-blur-md border border-gray-100 dark:border-gray-700 p-6 rounded-2xl shadow-sm">
+          <div class="w-28 h-28 md:w-36 md:h-36 rounded-full bg-[var(--color-primary)]/10 border-4 border-[var(--color-primary)]/20 flex items-center justify-center text-[var(--color-primary)] mb-4 shadow-inner">
+            <svg class="w-16 h-16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+            </svg>
+          </div>
+          <h2 class="text-2xl font-black text-[var(--color-text-main)] mb-1">امین هاشمی</h2>
+          <span class="text-xs font-extrabold text-[var(--color-primary)] bg-[var(--color-primary)]/10 px-3 py-1 rounded-full mb-4">مربی و طراح دوره‌ها</span>
+
+          <!-- آمار سریع مربی -->
+          <div class="grid grid-cols-2 gap-2 w-full pt-4 border-t border-gray-100 dark:border-gray-700 text-xs">
+            <div class="bg-gray-50 dark:bg-gray-900/50 p-2.5 rounded-xl text-center">
+              <span class="block font-black text-sm text-[var(--color-text-main)]">+۱۵ سال</span>
+              <span class="text-[var(--color-text-muted)] text-[11px]">سابقه حرفه‌ای</span>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 p-2.5 rounded-xl text-center">
+              <span class="block font-black text-sm text-[var(--color-text-main)]">بین‌المللی</span>
+              <span class="text-[var(--color-text-muted)] text-[11px]">مدرک مربی‌گری</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- توضیحات مربی -->
+        <div class="flex-1 flex flex-col justify-between">
+          <div>
+            <span class="text-xs font-bold text-[var(--color-primary)] uppercase tracking-wider mb-2 block">کادر فنی</span>
+            <h3 class="text-2xl md:text-3xl font-black text-[var(--color-text-main)] mb-4">درباره امین هاشمی</h3>
+
+            <div class="space-y-4 text-[var(--color-text-muted)] text-justify text-sm md:text-base leading-relaxed font-normal mb-6">
+              <p>پشت محتوای تمرینی {{ site.name }}، تجربه و دانش امین هاشمی قرار دارد.</p>
+              <p>امین هاشمی مربی ورزشی با بیش از ۱۵ سال سابقه‌ی حرفه‌ای است و تخصص او تمرینات عملکردی و پیشگیری از آسیب است. او مدرک بین‌المللی مربی‌گری از آمریکا دارد و در طول فعالیت حرفه‌ای‌اش با بازیکنان ملی، باشگاه‌های فوتبال و قهرمانان المپیک همکاری داشته است.</p>
+              <p>طراحی دوره‌ها در {{ site.name }} بر همین تجربه تکیه دارد؛ با این نگاه که یک برنامه‌ی تمرینی خوب فقط نباید سخت باشد، بلکه باید هدف مشخصی داشته باشد، درست اجرا شود و در زندگی واقعی هم قابل استفاده باشد. به همین دلیل تمرین‌ها تا حد امکان طوری طراحی می‌شوند که با تجهیزات محدود، در خانه یا هر محیط دیگری قابل اجرا باشند و مسیر پیشرفت مشخصی داشته باشند.</p>
+            </div>
+          </div>
+
+          <!-- دعوت به شبکه‌های اجتماعی -->
+          <div class="bg-white/60 dark:bg-gray-800/60 border border-gray-200/60 dark:border-gray-700/60 rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <div class="p-2 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-lg shrink-0">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path>
+                </svg>
+              </div>
+              <span class="text-xs md:text-sm font-bold text-[var(--color-text-main)]">امین هاشمی در شبکه‌های اجتماعی</span>
+            </div>
+            <span class="text-xs text-[var(--color-text-muted)] font-medium">دنبال کردن از طریق لینک‌های رسمی فوتر</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== بخش طراحی و توسعه (حسن احمدی) ==================== -->
+    <div class="bg-[var(--color-bg-surface)] border border-gray-200/80 dark:border-gray-800 rounded-3xl p-6 md:p-10 mb-16 shadow-sm relative overflow-hidden">
+      <div class="flex flex-col lg:flex-row gap-8 items-start">
+        <div class="flex-1">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="p-1.5 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-lg">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path>
+              </svg>
+            </span>
+            <span class="text-xs font-bold text-blue-600 dark:text-blue-400 uppercase tracking-wider">توسعه و زیرساخت فنی</span>
+          </div>
+
+          <h2 class="text-2xl md:text-3xl font-black text-[var(--color-text-main)] mb-4">طراحی و توسعه‌ی {{ site.name }}</h2>
+          <h3 class="text-base font-extrabold text-[var(--color-primary)] mb-4">حسن احمدی</h3>
+
+          <div class="space-y-4 text-justify text-[var(--color-text-muted)] text-sm md:text-base leading-relaxed font-normal mb-6">
+            <p>{{ site.name }} تنها محلی برای ارائه‌ی دوره نیست؛ تلاش شده زیرساخت و تجربه‌ی استفاده از سایت هم به‌اندازه‌ی محتوای آن ساده، منظم و قابل‌اعتماد باشد.</p>
+            <p>
+              طراحی و توسعه‌ی وب‌سایت را <strong>حسن احمدی</strong> انجام داده است. هدف از این طراحی، ساختن مسیری بدون پیچیدگی اضافه بوده: از آشنایی با یک دوره تا خرید و دسترسی به محتوای آن. از رابط کاربری و ساختار صفحات گرفته تا ورود و ثبت‌نام با شماره‌ی موبایل، سبد خرید، پرداخت آنلاین امن و پیگیری سفارش‌ها از داخل پروفایل کاربری، همه با هدف یک تجربه‌ی یکپارچه توسعه داده شده‌اند؛ طوری که در گوشی موبایل هم به همان راحتی دسکتاپ قابل استفاده باشد.
+            </p>
+          </div>
+
+          <!-- ۳ اصل توسعه -->
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+            <div class="bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 p-4 rounded-xl">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 inline-block mb-2"></span>
+              <h4 class="font-bold text-xs md:text-sm text-[var(--color-text-main)] mb-1">سادگی برای کاربر</h4>
+              <p class="text-[11px] text-[var(--color-text-muted)]">رابط کاربری روان و دسترسی سریع به دوره‌ها</p>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 p-4 rounded-xl">
+              <span class="w-2 h-2 rounded-full bg-blue-500 inline-block mb-2"></span>
+              <h4 class="font-bold text-xs md:text-sm text-[var(--color-text-main)] mb-1">اعتماد و پایداری</h4>
+              <p class="text-[11px] text-[var(--color-text-muted)]">پرداخت امن و امنیت بالای اطلاعات حساب</p>
+            </div>
+            <div class="bg-gray-50 dark:bg-gray-900/50 border border-gray-100 dark:border-gray-800 p-4 rounded-xl">
+              <span class="w-2 h-2 rounded-full bg-purple-500 inline-block mb-2"></span>
+              <h4 class="font-bold text-xs md:text-sm text-[var(--color-text-main)] mb-1">قابلیت توسعه</h4>
+              <p class="text-[11px] text-[var(--color-text-muted)]">معماری مقیاس‌پذیر برای افزودن امکانات جدید</p>
+            </div>
+          </div>
+
+          <!-- لینک نمونه‌کار توسعه‌دهنده -->
+          <a href="https://www.linkedin.com/in/hassan-ahmadi-jo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs md:text-sm font-bold text-[var(--color-primary)] hover:underline">
+            <span>ارتباط یا مشاهده نمونه‌کارهای حسن احمدی</span>
+            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== بخش ارتباط با ما / پشتیبانی ==================== -->
+    <div class="bg-gradient-to-br from-[var(--color-bg-surface)] to-[var(--color-primary)]/5 border border-[var(--color-primary)]/15 rounded-3xl p-6 md:p-10 shadow-xl">
+      <div class="text-center max-w-xl mx-auto mb-10">
+        <span class="text-xs font-extrabold text-[var(--color-primary)] uppercase tracking-wider bg-[var(--color-primary)]/10 px-3.5 py-1.5 rounded-full inline-block mb-3">پاسخگویی منظم</span>
+        <h2 class="text-2xl md:text-4xl font-black text-[var(--color-text-main)] mb-3">با ما در ارتباط باشید</h2>
+        <p class="text-xs md:text-sm text-[var(--color-text-muted)] leading-relaxed">ترجیح می‌دهیم ارتباط با کاربران ساده و مشخص باشد؛ به همین دلیل همه‌ی ارتباطات از یک مسیر اصلی در سایت مدیریت می‌شوند.</p>
+      </div>
+
+      <!-- شبکه‌بندی ۳ کانال ارتباطی -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- کانال ۱ -->
+        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-xl flex items-center justify-center mb-4 font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+              </svg>
+            </div>
+            <h3 class="font-extrabold text-base text-[var(--color-text-main)] mb-2">پشتیبانی و امور سایت</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">سوالات مربوط به ثبت‌نام، خرید دوره، پرداخت، حساب کاربری، دسترسی به محتوا یا مشکلات فنی.</p>
+          </div>
+        </div>
+
+        <!-- کانال ۲ -->
+        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-xl flex items-center justify-center mb-4 font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+            <h3 class="font-extrabold text-base text-[var(--color-text-main)] mb-2">سوالات دوره و تمرین</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">سوالات تخصصی تمرین‌ها در صورت نیاز برای پاسخ‌گویی مستقیم به امین هاشمی ارجاع داده می‌شوند.</p>
+          </div>
+        </div>
+
+        <!-- کانال ۳ -->
+        <div class="bg-white/80 dark:bg-gray-800/80 backdrop-blur-md p-6 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm flex flex-col justify-between">
+          <div>
+            <div class="w-10 h-10 bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-xl flex items-center justify-center mb-4 font-bold">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z"></path>
+              </svg>
+            </div>
+            <h3 class="font-extrabold text-base text-[var(--color-text-main)] mb-2">پیشنهاد و بازخورد</h3>
+            <p class="text-xs text-[var(--color-text-muted)] leading-relaxed">بازخورد شما در بهبود تجربه کاربری و توسعه دوره‌های آینده {{ site.name }} نقش مهمی دارد.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- دکمه CTA ثبت تیکت / پشتیبانی -->
+      <div class="text-center">
+        <a href="" class="inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold px-8 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+          </svg>
+          <span>ارسال پیام در بخش پشتیبانی</span>
+        </a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
