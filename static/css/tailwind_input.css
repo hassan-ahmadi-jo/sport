@@ -5,7 +5,6 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 
-/* تعریف تم اختصاصی در Tailwind v4 برای شناسایی کلاس‌های رنگی مثل text-main */
 @theme {
     --color-bg-default: #F7F5F2;
     --color-bg-surface: #FFFFFF;
@@ -15,6 +14,8 @@
     --color-primary: #2F5D50;
     --color-primary-hover: #264B41;
     --color-accent: #B8835A;
+    /* تنها توکن جدید: هیچ رنگ خطای موجودی در سیستم نبود. دلیل در توضیحات پایین. */
+    --color-danger: #B3413E;
 }
 
 @font-face {
@@ -75,24 +76,39 @@
     }
 
     h3 {
-        @apply text-xl md:text-2xl mb-3 md:mb-4;
+        @apply text-xl md:text-2xl leading-snug mb-3 md:mb-4;
+    }
+
+    /* h4-h6 قبلاً اندازه‌ی مشخصی نداشتن و به‌صورت پیش‌فرض مرورگر رندر می‌شدن */
+    h4 {
+        @apply text-lg md:text-xl leading-snug mb-2 md:mb-3;
+    }
+
+    h5 {
+        @apply text-base md:text-lg leading-normal mb-2;
+    }
+
+    h6 {
+        @apply text-sm md:text-base leading-normal mb-2;
     }
 
     p {
         color: var(--color-text-main);
-        opacity: 0.9;
         @apply mb-4 leading-8;
     }
 
     a {
         color: var(--color-text-main);
-        opacity: 0.9;
-        @apply leading-8 cursor-pointer;
+        @apply leading-8 cursor-pointer transition-colors duration-200;
+    }
+
+    a:hover {
+        color: var(--color-primary);
     }
 }
 
 @layer components {
-    /* profile edit form */
+        /* profile edit form */
     .profile-edit-form-control{
         @apply w-full bg-gray-50/60 dark:bg-white/[0.03] border border-gray-200/90 dark:border-gray-800 rounded-2xl pr-12 pl-4 py-3.5 text-sm md:text-base text-[var(--color-text-main)] font-semibold placeholder-gray-400 dark:placeholder-gray-600 focus:outline-none focus:ring-4 focus:ring-[var(--color-primary)]/15 focus:border-[var(--color-primary)]/60 hover:border-gray-300 dark:hover:border-gray-700 transition-all duration-200;
     }
@@ -157,21 +173,35 @@
     .card {
         background-color: var(--color-bg-surface);
         border: 1px solid var(--color-border-default);
-        @apply rounded-2xl shadow-sm transition-shadow duration-300 hover:shadow-md;
+        box-shadow: 0 1px 3px 0 color-mix(in srgb, var(--color-text-main) 6%, transparent);
+        @apply rounded-xl transition duration-300;
+    }
+
+    .card:hover {
+        box-shadow: 0 12px 28px -12px color-mix(in srgb, var(--color-text-main) 16%, transparent);
+        border-color: color-mix(in srgb, var(--color-primary) 22%, var(--color-border-default));
     }
 
     .btn-primary {
         background-color: var(--color-primary);
-        @apply inline-flex items-center justify-center text-white font-medium px-6 py-2.5 rounded-lg transition-colors duration-200 focus:outline-none focus:ring-2;
+        box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--color-primary) 12%, transparent);
+        @apply inline-flex items-center justify-center text-white font-semibold px-6 py-2.5 rounded-xl outline-none transition-all duration-200;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--color-primary-hover);
+        box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--color-primary) 30%, transparent);
+        @apply -translate-y-0.5 motion-reduce:translate-y-0;
+    }
+
+    .btn-primary:active {
+        background-color: var(--color-primary-hover);
+        @apply scale-[0.98] motion-reduce:scale-100;
     }
 
     .btn-primary:focus-visible {
         outline: none;
         box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 50%, transparent);
-    }
-
-    .btn-primary:hover {
-        background-color: var(--color-primary-hover);
     }
 
     .badge {
@@ -197,12 +227,7 @@
     }
 
     .blog-content h1 {
-        font-size: 2.25rem;
-        line-height: 2.5rem;
-        font-weight: 700;
-        margin-top: 2.5rem;
-        margin-bottom: 1rem;
-        color: #fcd34d !important;
+        @apply text-3xl md:text-4xl leading-tight;
     }
 
     .blog-content h2 {
@@ -210,16 +235,16 @@
     }
 
     .blog-content h3 {
-        @apply text-xl md:text-2xl;
+        @apply text-xl md:text-2xl leading-snug;
     }
 
     .blog-content h4 {
-        @apply text-lg md:text-xl;
+        @apply text-lg md:text-xl leading-snug;
     }
 
     /* پاراگراف و متن‌های درون‌خطی */
     .blog-content p {
-        @apply mb-6 text-justify text-text-main/90;
+        @apply mb-6 text-start text-text-main/90;
     }
 
     .blog-content strong {
@@ -253,14 +278,15 @@
 
     /* نقل‌قول (Blockquote) */
     .blog-content blockquote {
-        @apply relative border-s-4 border-primary bg-white/50 py-4 px-6 my-8 rounded-e-lg text-text-main/80 font-medium italic;
+        @apply relative border-s-4 border-primary bg-bg-surface/50 py-4 px-6 my-8 rounded-e-lg text-text-main/80 font-medium italic;
     }
 
     /* کد و بلاک‌های کد */
     .blog-content code {
-        @apply bg-black/5 text-primary text-sm px-1.5 py-0.5 rounded-md font-mono [direction:ltr] inline-block;
+        @apply bg-text-main/5 text-primary text-sm px-1.5 py-0.5 rounded-md font-mono [direction:ltr] inline-block;
     }
 
+    /* پس‌زمینه‌ی تیره‌ی این دو، عمداً ثابت نگه داشته شده (قرارداد رایج بلاک کد، مستقل از تم روشن سایت) */
     .blog-content pre {
         @apply bg-[#1e1e1e] text-[#f8f8f2] p-4 rounded-xl my-6 overflow-x-auto text-sm font-mono [direction:ltr] text-left;
     }
@@ -271,7 +297,7 @@
 
     /* خط جداکننده */
     .blog-content hr {
-        @apply border-t border-black/10 my-10 w-1/3 mx-auto;
+        @apply border-t border-border-default my-10 w-1/3 mx-auto;
     }
 
     /* تصاویر */
@@ -289,11 +315,11 @@
 
     /* جداول */
     .blog-content table {
-        @apply w-full text-right border-collapse mb-8 text-sm md:text-base;
+        @apply w-full text-start border-collapse mb-8 text-sm md:text-base;
     }
 
     .blog-content thead {
-        @apply bg-black/5 border-b-2 border-black/10;
+        @apply bg-bg-default border-b-2 border-border-default;
     }
 
     .blog-content th {
@@ -301,7 +327,7 @@
     }
 
     .blog-content td {
-        @apply p-3 border-b border-black/5 text-text-main/90;
+        @apply p-3 border-b border-border-default text-text-main/90;
     }
 
     .blog-content tr:last-child td {
@@ -321,29 +347,40 @@
         background-color: var(--color-bg-surface);
         border-color: var(--color-primary);
         @apply ring-4;
-        ring-color: color-mix(in srgb, var(--color-primary) 15%, transparent);
+        ring-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
     }
 
     /* استایل لیبل‌های فرم */
     .form-label {
         color: var(--color-text-main);
-        @apply block text-sm font-bold mb-2 opacity-90;
+        @apply block text-sm font-semibold mb-2;
     }
 
     /* استایل دکمه ارسال فرم (گسترش یافته برای فرم‌ها) */
     .form-button {
         background-color: var(--color-primary);
-        @apply w-full flex items-center justify-center text-white font-medium text-base px-6 py-3.5 rounded-xl transition-all duration-300 shadow-sm focus:outline-none focus:ring-4 hover:shadow-md;
-        ring-color: color-mix(in srgb, var(--color-primary) 20%, transparent);
+        box-shadow: 0 1px 2px 0 color-mix(in srgb, var(--color-primary) 12%, transparent);
+        @apply w-full flex items-center justify-center text-white font-semibold text-base px-6 py-3.5 rounded-xl outline-none transition-all duration-200;
     }
 
     .form-button:hover {
         background-color: var(--color-primary-hover);
-        @apply -translate-y-0.5;
+        box-shadow: 0 6px 16px -4px color-mix(in srgb, var(--color-primary) 30%, transparent);
+        @apply -translate-y-0.5 motion-reduce:translate-y-0;
+    }
+
+    .form-button:active {
+        background-color: var(--color-primary-hover);
+        @apply scale-[0.98] motion-reduce:scale-100;
+    }
+
+    .form-button:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 50%, transparent);
     }
 
     /* استایل پیام‌های ارور جنگو */
     .form-error {
-        @apply text-xs text-rose-500 mt-1.5 font-medium flex items-center gap-1;
+        @apply text-xs text-danger mt-1.5 font-medium flex items-center gap-1;
     }
 }
