@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-درباره ما
+  درباره ما
 {% endblock %}
 
 {% block body %}
@@ -180,12 +180,14 @@
           </div>
 
           <!-- لینک نمونه‌کار توسعه‌دهنده -->
-          <a href="https://www.linkedin.com/in/hassan-ahmadi-jo" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs md:text-sm font-bold text-[var(--color-primary)] hover:underline">
-            <span>ارتباط یا مشاهده نمونه‌کارهای حسن احمدی</span>
-            <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-            </svg>
-          </a>
+          {% if site.contact_website_designer %}
+            <a href="{{site.contact_website_designer}}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-xs md:text-sm font-bold text-[var(--color-primary)] hover:underline">
+              <span>ارتباط یا مشاهده نمونه‌کارهای حسن احمدی</span>
+              <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+              </svg>
+            </a>
+          {% endif %}
         </div>
       </div>
     </div>
@@ -242,7 +244,7 @@
 
       <!-- دکمه CTA ثبت تیکت / پشتیبانی -->
       <div class="text-center">
-        <a href="" class="inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold px-8 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
+        <a href="{% url 'profile' %}?tab=support" class="inline-flex items-center justify-center gap-2 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold px-8 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
           </svg>

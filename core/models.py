@@ -1,7 +1,7 @@
 from django.db import models
 from django.db import transaction
 from imagekit.models import ProcessedImageField
-from imagekit.processors import ResizeToFill, ResizeToFit
+from imagekit.processors import ResizeToFill
 
 # Create your models here.
 class SiteSettings(models.Model):
@@ -10,7 +10,7 @@ class SiteSettings(models.Model):
 
     logo = ProcessedImageField(
         upload_to='settings/logos/',
-        processors=[ResizeToFit(300, 100)],
+        processors=[ResizeToFill(300, 100)],
         format='WEBP',
         options={'quality': 90},
         verbose_name="لوگو سایت (عرض سه برابر ارتفاع)"

@@ -30,7 +30,7 @@
 
           <!-- دکمه‌های اقدام (CTA Buttons) -->
           <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-            <a href="#courses" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold px-8 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
+            <a href="{% url 'products_list' %}" class="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold px-8 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0">
               <span>مشاهده دوره‌ها</span>
               <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
@@ -146,7 +146,7 @@
                 {{ course.duration|default:'۳۰ روز دسترسی' }}
               </span>
 
-              <a href="{% url 'workout_course' slug=course.slug %}" class="inline-flex items-center gap-1.5 text-xs font-extrabold bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white px-4 py-2.5 rounded-xl shadow-md shadow-[var(--color-primary)]/20 transition-all">
+              <a href="#" class="inline-flex items-center gap-1.5 text-xs font-extrabold bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white px-4 py-2.5 rounded-xl shadow-md shadow-[var(--color-primary)]/20 transition-all">
                 <span>مشاهده دوره</span>
                 <svg class="w-3.5 h-3.5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"></path>
@@ -387,7 +387,7 @@
         <h2 class="text-3xl md:text-4xl font-black text-[var(--color-text-main)] mb-4 tracking-tight">وقتشه تمرین را شروع کنی</h2>
         <p class="text-sm md:text-base text-[var(--color-text-muted)] leading-relaxed mb-8">یک دوره را انتخاب کن، برنامه‌ی خودت را شروع کن و قدم‌به‌قدم پیش برو.</p>
 
-        <a href="#courses" class="inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold text-sm md:text-base px-9 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
+        <a href="{% url 'products_list' %}" class="inline-flex items-center justify-center gap-2.5 bg-[var(--color-primary)] hover:bg-[var(--color-primary)]/90 text-white font-extrabold text-sm md:text-base px-9 py-4 rounded-2xl shadow-lg shadow-[var(--color-primary)]/25 transition-all duration-300 hover:shadow-xl hover:-translate-y-0.5">
           <span>مشاهده دوره‌ها</span>
           <svg class="w-5 h-5 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>

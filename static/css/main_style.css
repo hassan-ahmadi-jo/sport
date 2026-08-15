@@ -8,6 +8,7 @@
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
     --color-red-500: oklch(63.7% 0.237 25.331);
+    --color-amber-300: oklch(87.9% 0.169 91.605);
     --color-amber-400: oklch(82.8% 0.189 84.429);
     --color-amber-500: oklch(76.9% 0.188 70.08);
     --color-amber-600: oklch(66.6% 0.179 58.318);
@@ -1286,11 +1287,17 @@
   .h-\[22px\] {
     height: 22px;
   }
+  .h-\[50px\] {
+    height: 50px;
+  }
   .h-full {
     height: 100%;
   }
   .h-px {
     height: 1px;
+  }
+  .max-h-full {
+    max-height: 100%;
   }
   .min-h-\[75vh\] {
     min-height: 75vh;
@@ -1421,6 +1428,9 @@
   .w-\[22px\] {
     width: 22px;
   }
+  .w-\[150px\] {
+    width: 150px;
+  }
   .w-auto {
     width: auto;
   }
@@ -1453,6 +1463,9 @@
   }
   .max-w-\[300px\] {
     max-width: 300px;
+  }
+  .max-w-full {
+    max-width: 100%;
   }
   .max-w-lg {
     max-width: var(--container-lg);
@@ -1934,6 +1947,9 @@
       background-color: color-mix(in oklab, var(--color-primary) 20%, transparent);
     }
   }
+  .bg-amber-300 {
+    background-color: var(--color-amber-300);
+  }
   .bg-amber-500 {
     background-color: var(--color-amber-500);
   }
@@ -2295,13 +2311,6 @@
     }
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
   }
-  .to-\[var\(--color-primary\)\]\/80 {
-    --tw-gradient-to: color-mix(in srgb, #2F5D50 80%, transparent);
-    @supports (color: color-mix(in lab, red, red)) {
-      --tw-gradient-to: color-mix(in oklab, var(--color-primary) 80%, transparent);
-    }
-    --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
-  }
   .to-\[var\(--color-primary\)\]\/90 {
     --tw-gradient-to: color-mix(in srgb, #2F5D50 90%, transparent);
     @supports (color: color-mix(in lab, red, red)) {
@@ -2331,6 +2340,9 @@
   .to-transparent {
     --tw-gradient-to: transparent;
     --tw-gradient-stops: var(--tw-gradient-via-stops, var(--tw-gradient-position), var(--tw-gradient-from) var(--tw-gradient-from-position), var(--tw-gradient-to) var(--tw-gradient-to-position));
+  }
+  .object-contain {
+    object-fit: contain;
   }
   .object-cover {
     object-fit: cover;
@@ -3407,18 +3419,6 @@
   .active\:scale-\[0\.98\] {
     &:active {
       scale: 0.98;
-    }
-  }
-  .motion-reduce\:group-hover\:scale-100 {
-    @media (prefers-reduced-motion: reduce) {
-      &:is(:where(.group):hover *) {
-        @media (hover: hover) {
-          --tw-scale-x: 100%;
-          --tw-scale-y: 100%;
-          --tw-scale-z: 100%;
-          scale: var(--tw-scale-x) var(--tw-scale-y);
-        }
-      }
     }
   }
   .motion-reduce\:hover\:translate-y-0 {
