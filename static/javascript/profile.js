@@ -1,6 +1,7 @@
 const profileSidebarBtnEls = document.querySelectorAll('.js-profile-sidebar-btn');
 const profileContentAreaEl = document.getElementById('profile-content-area');
 const profileLodingEl = document.getElementById('profile-loading');
+const params = new URLSearchParams(window.location.search);
 
 
 const setProfileSidebarBtnClassList = function (btn) {
@@ -133,5 +134,12 @@ document.addEventListener('click', function (e) {
         if (arrow) arrow.style.transform = 'rotate(180deg)';
     }
 });
+
+const tab = params.get('tab');
+if (tab == 'support') {
+    const SupportBtnEl = document.getElementById('profile-support-btn');
+    SupportBtnEl.click();
+};
+
 
 
