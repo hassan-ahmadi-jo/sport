@@ -199,19 +199,6 @@
                     <span class="text-[var(--color-primary)] font-black text-base">{{ order.total_price|intcomma }} تومان</span>
                   </div>
                 </div>
-
-                <!-- اکشن‌ها (در صورت معلق بودن فاکتور) -->
-                {% if order.effective_status == 'pending' %}
-                  <div class="pt-2 flex justify-end">
-                    <a href="{% url 'payment' %}" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-extrabold text-white bg-amber-500 hover:bg-amber-600 shadow-md shadow-amber-500/20 transition-all">
-                      <span>تکمیل روند پرداخت</span>
-                      <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                      </svg>
-                    </a>
-                  </div>
-                {% endif %}
-
               </div>
             </div>
           </div>

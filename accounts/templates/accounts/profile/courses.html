@@ -137,22 +137,13 @@
 
           <!-- دکمه دوتایی/اصلی ورود به دوره -->
           <div class="p-4 sm:p-5 pt-0 mt-1">
-            {% if course_item.is_active %}
-              <a href="" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs font-black text-white bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)]/90 hover:opacity-95 shadow-md shadow-[var(--color-primary)]/20 transition-all group-hover:scale-[1.01]">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
-                <span>ورود به دوره و مشاهده تمرینات</span>
-              </a>
-            {% else %}
-              <a href="" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs font-black text-rose-600 dark:text-rose-400 bg-rose-500/10 hover:bg-rose-500/20 border border-rose-500/20 transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
-                </svg>
-                <span>تمدید اشتراک برای مشاهده این دوره</span>
-              </a>
-            {% endif %}
+            <a href="{% url 'workout_course' slug=course_item.slug %}" class="w-full inline-flex items-center justify-center gap-2 px-4 py-3 rounded-2xl text-xs font-black text-white bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-primary)]/90 hover:opacity-95 shadow-md shadow-[var(--color-primary)]/20 transition-all group-hover:scale-[1.01]">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+              <span>ورود به دوره و مشاهده تمرینات</span>
+            </a>
           </div>
         </div>
       {% endfor %}
@@ -168,11 +159,11 @@
 
       <div class="space-y-1.5 max-w-sm mx-auto">
         <h3 class="text-base sm:text-lg font-black text-[var(--color-text-main)]">هیچ دوره تمرینی فعال ندارید</h3>
-        <p class="text-xs sm:text-sm text-[var(--color-text-muted)] font-medium leading-relaxed">با تهیه یکی از اشتراک‌ها، تمامی دوره‌های تمرینی مرتبط با آن برای شما فعال شده و در این صفحه قرار می‌گیرند.</p>
+        <p class="text-xs sm:text-sm text-[var(--color-text-muted)] font-medium leading-relaxed">با تهیه یکی از اشتراک‌ها، دوره‌های تمرینی مرتبط با آن برای شما فعال شده و در این صفحه قرار می‌گیرند.</p>
       </div>
 
       <div class="pt-2">
-        <a href="" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs font-black text-white bg-[var(--color-primary)] hover:opacity-90 shadow-lg shadow-[var(--color-primary)]/25 transition-all">
+        <a href="{% url 'products_list' %}" class="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-xs font-black text-white bg-[var(--color-primary)] hover:opacity-90 shadow-lg shadow-[var(--color-primary)]/25 transition-all">
           <span>مشاهده پکیج‌های اشتراکی</span>
           <svg class="w-4 h-4 transform rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
