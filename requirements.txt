@@ -1,0 +1,6 @@
+Django==6.0.2
+django-phonenumber-field[phonenumbers]==8.4.0
+django-imagekit==6.0.0
+Markdown==3.10.2
+zarinpal-py-sdk==0.1.4
+
